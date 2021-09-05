@@ -1,0 +1,8 @@
+[gd_scene format=2]
+
+[node name="MainCamera" type="Camera2D"]
+current = true
+limit_left = 5000
+limit_top = 5000
+limit_right = 5000
+limit_bottom = 5000

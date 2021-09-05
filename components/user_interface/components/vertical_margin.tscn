@@ -1,0 +1,9 @@
+[gd_scene format=2]
+
+[node name="VerticalMargin" type="MarginContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+custom_constants/margin_bottom = 15
+__meta__ = {
+"_edit_use_anchors_": false
+}

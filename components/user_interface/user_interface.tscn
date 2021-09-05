@@ -1,0 +1,517 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://fonts/Inter/static/Inter-Light.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://components/user_interface/user_interface.gd" type="Script" id=2]
+[ext_resource path="res://components/user_interface/components/ui_dynamic_font.tres" type="DynamicFont" id=3]
+[ext_resource path="res://components/user_interface/components/vertical_margin.tscn" type="PackedScene" id=4]
+[ext_resource path="res://components/user_interface/components/horizontal_margin.tscn" type="PackedScene" id=5]
+
+[sub_resource type="AtlasTexture" id=1]
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 1 )
+
+[node name="UserInterface" type="HBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -1.18921
+margin_bottom = -1.18921
+mouse_filter = 2
+alignment = 2
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LetterControl" type="MarginContainer" parent="."]
+margin_right = 179.0
+margin_bottom = 640.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="Items" type="VBoxContainer" parent="LetterControl"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 169.0
+margin_bottom = 630.0
+
+[node name="Panel" type="PanelContainer" parent="LetterControl/Items"]
+margin_right = 159.0
+margin_bottom = 188.0
+rect_min_size = Vector2( 100, 100 )
+
+[node name="Controls" type="VBoxContainer" parent="LetterControl/Items/Panel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 152.0
+margin_bottom = 181.0
+
+[node name="Texture" type="HBoxContainer" parent="LetterControl/Items/Panel/Controls"]
+margin_right = 145.0
+margin_bottom = 36.0
+alignment = 1
+
+[node name="Panel" type="PanelContainer" parent="LetterControl/Items/Panel/Controls/Texture"]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = 59.0
+margin_right = 85.0
+margin_bottom = 36.0
+rect_min_size = Vector2( 12, 22 )
+
+[node name="Char" type="TextureRect" parent="LetterControl/Items/Panel/Controls/Texture/Panel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 19.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 12, 22 )
+size_flags_horizontal = 3
+texture = SubResource( 1 )
+
+[node name="Advance" type="ColorRect" parent="LetterControl/Items/Panel/Controls/Texture/Panel"]
+modulate = Color( 1, 1, 1, 0.498039 )
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 19.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 12, 22 )
+size_flags_horizontal = 0
+
+[node name="AdvanceControls" type="HBoxContainer" parent="LetterControl/Items/Panel/Controls"]
+margin_top = 40.0
+margin_right = 145.0
+margin_bottom = 146.0
+rect_min_size = Vector2( 0, 64 )
+
+[node name="Centering" type="CenterContainer" parent="LetterControl/Items/Panel/Controls/AdvanceControls"]
+margin_right = 145.0
+margin_bottom = 106.0
+size_flags_horizontal = 3
+
+[node name="Items" type="VBoxContainer" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering"]
+margin_right = 145.0
+margin_bottom = 106.0
+
+[node name="HorizontalMargin" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items" instance=ExtResource( 5 )]
+margin_right = 145.0
+margin_bottom = 7.0
+custom_constants/margin_top = 7
+
+[node name="TextAdvance" type="HBoxContainer" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items"]
+margin_top = 11.0
+margin_right = 145.0
+margin_bottom = 25.0
+
+[node name="XAdvance" type="Label" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/TextAdvance"]
+margin_right = 145.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "X Advance"
+align = 1
+
+[node name="Edit" type="HBoxContainer" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items"]
+margin_top = 29.0
+margin_right = 145.0
+margin_bottom = 53.0
+size_flags_horizontal = 3
+
+[node name="CurrentAdvance" type="LineEdit" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Edit"]
+margin_right = 58.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "0"
+
+[node name="Pixels2" type="Label" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Edit"]
+margin_left = 62.0
+margin_top = 5.0
+margin_right = 79.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "px"
+align = 1
+
+[node name="Slash" type="Label" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Edit"]
+margin_left = 83.0
+margin_top = 5.0
+margin_right = 101.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "/"
+align = 1
+
+[node name="AdvanceLimit" type="Label" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Edit"]
+margin_left = 105.0
+margin_top = 5.0
+margin_right = 123.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "10"
+align = 1
+
+[node name="Pixels" type="Label" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Edit"]
+margin_left = 127.0
+margin_top = 5.0
+margin_right = 145.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "px"
+align = 1
+
+[node name="Buttons" type="HBoxContainer" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items"]
+margin_top = 57.0
+margin_right = 145.0
+margin_bottom = 77.0
+
+[node name="Decrease" type="Button" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Buttons"]
+margin_right = 70.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "<"
+
+[node name="Increase" type="Button" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Buttons"]
+margin_left = 74.0
+margin_right = 145.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = ">"
+
+[node name="HorizontalMargin2" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items" instance=ExtResource( 5 )]
+margin_top = 81.0
+margin_right = 145.0
+margin_bottom = 88.0
+custom_constants/margin_top = 7
+
+[node name="TextChars" type="HBoxContainer" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items"]
+margin_top = 92.0
+margin_right = 145.0
+margin_bottom = 106.0
+
+[node name="Index" type="Label" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/TextChars"]
+margin_right = 145.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "CURRENT_CHAR_INDEX"
+align = 1
+
+[node name="LetterSwitch" type="HBoxContainer" parent="LetterControl/Items/Panel/Controls"]
+margin_top = 150.0
+margin_right = 145.0
+margin_bottom = 174.0
+alignment = 1
+
+[node name="Centering" type="CenterContainer" parent="LetterControl/Items/Panel/Controls/LetterSwitch"]
+margin_right = 145.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="Controls" type="HBoxContainer" parent="LetterControl/Items/Panel/Controls/LetterSwitch/Centering"]
+margin_left = 5.0
+margin_right = 140.0
+margin_bottom = 24.0
+
+[node name="PrevChar" type="Button" parent="LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls"]
+margin_right = 20.0
+margin_bottom = 24.0
+text = "<"
+
+[node name="CurrentChar" type="LineEdit" parent="LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls"]
+margin_left = 24.0
+margin_right = 82.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "0"
+
+[node name="Slash" type="Label" parent="LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls"]
+margin_left = 86.0
+margin_top = 5.0
+margin_right = 91.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "/"
+
+[node name="CharCount" type="Label" parent="LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls"]
+margin_left = 95.0
+margin_top = 5.0
+margin_right = 111.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "10"
+
+[node name="NextChar" type="Button" parent="LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls"]
+margin_left = 115.0
+margin_right = 135.0
+margin_bottom = 24.0
+text = ">"
+
+[node name="SpaceFill" type="MarginContainer" parent="."]
+margin_left = 183.0
+margin_right = 646.0
+margin_bottom = 640.0
+size_flags_horizontal = 3
+
+[node name="TextureInfoControl" type="MarginContainer" parent="."]
+margin_left = 650.0
+margin_right = 900.0
+margin_bottom = 640.0
+grow_horizontal = 0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="OpenFile" type="FileDialog" parent="TextureInfoControl"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 267.0
+margin_bottom = 630.0
+popup_exclusive = true
+window_title = "Open a File"
+resizable = true
+mode = 0
+access = 2
+current_dir = "/Burak/Diğer/angelcode-fnt-generator"
+current_path = "/Burak/Diğer/angelcode-fnt-generator/"
+
+[node name="Panel" type="PanelContainer" parent="TextureInfoControl"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 240.0
+margin_bottom = 630.0
+rect_min_size = Vector2( 230, 0 )
+
+[node name="Margin" type="MarginContainer" parent="TextureInfoControl/Panel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 223.0
+margin_bottom = 613.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="Scroll" type="ScrollContainer" parent="TextureInfoControl/Panel/Margin"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 211.0
+margin_bottom = 601.0
+rect_min_size = Vector2( 200, 0 )
+
+[node name="Items" type="VBoxContainer" parent="TextureInfoControl/Panel/Margin/Scroll"]
+margin_right = 200.0
+margin_bottom = 538.0
+rect_min_size = Vector2( 200, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ProjectTitle" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+margin_right = 200.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 3 )
+text = "PROJECT_NAME"
+
+[node name="VMarginTitle" parent="TextureInfoControl/Panel/Margin/Scroll/Items" instance=ExtResource( 4 )]
+margin_top = 24.0
+margin_right = 200.0
+margin_bottom = 39.0
+
+[node name="ImageLoad" type="Button" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+margin_top = 43.0
+margin_right = 200.0
+margin_bottom = 83.0
+rect_min_size = Vector2( 0, 40 )
+custom_fonts/font = ExtResource( 3 )
+text = "LOAD_AN_IMAGE"
+
+[node name="VMarginLoad" parent="TextureInfoControl/Panel/Margin/Scroll/Items" instance=ExtResource( 4 )]
+margin_top = 87.0
+margin_right = 200.0
+margin_bottom = 102.0
+
+[node name="FontNameLabel" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+margin_top = 106.0
+margin_right = 200.0
+margin_bottom = 126.0
+custom_fonts/font = ExtResource( 3 )
+text = "FONT_NAME"
+
+[node name="FontNameEdit" type="LineEdit" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+margin_top = 130.0
+margin_right = 200.0
+margin_bottom = 154.0
+
+[node name="VMarginFont" parent="TextureInfoControl/Panel/Margin/Scroll/Items" instance=ExtResource( 4 )]
+margin_top = 158.0
+margin_right = 200.0
+margin_bottom = 173.0
+
+[node name="TextureNameLabel" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+margin_top = 177.0
+margin_right = 200.0
+margin_bottom = 197.0
+custom_fonts/font = ExtResource( 3 )
+text = "TEXTURE_NAME"
+
+[node name="TextureNameEdit" type="LineEdit" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+margin_top = 201.0
+margin_right = 200.0
+margin_bottom = 225.0
+
+[node name="VMarginTexture" parent="TextureInfoControl/Panel/Margin/Scroll/Items" instance=ExtResource( 4 )]
+margin_top = 229.0
+margin_right = 200.0
+margin_bottom = 244.0
+
+[node name="CharacterDimensionsLabel" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+margin_top = 248.0
+margin_right = 200.0
+margin_bottom = 268.0
+custom_fonts/font = ExtResource( 3 )
+text = "CHAR_DIMENSIONS"
+
+[node name="CharacterDimensions" type="HBoxContainer" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+margin_top = 272.0
+margin_right = 200.0
+margin_bottom = 296.0
+
+[node name="CharacterWidthEdit" type="LineEdit" parent="TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions"]
+margin_right = 58.0
+margin_bottom = 24.0
+grow_horizontal = 0
+text = "1"
+
+[node name="Pixels" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions"]
+margin_left = 62.0
+margin_top = 2.0
+margin_right = 81.0
+margin_bottom = 22.0
+custom_fonts/font = ExtResource( 3 )
+text = "px"
+
+[node name="HMarginX" parent="TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions" instance=ExtResource( 5 )]
+margin_left = 85.0
+margin_right = 90.0
+margin_bottom = 24.0
+
+[node name="Times" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions"]
+margin_left = 94.0
+margin_top = 2.0
+margin_right = 104.0
+margin_bottom = 22.0
+custom_fonts/font = ExtResource( 3 )
+text = "X"
+
+[node name="HMarginY" parent="TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions" instance=ExtResource( 5 )]
+margin_left = 108.0
+margin_right = 113.0
+margin_bottom = 24.0
+
+[node name="CharacterHeightEdit" type="LineEdit" parent="TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions"]
+margin_left = 117.0
+margin_right = 175.0
+margin_bottom = 24.0
+grow_horizontal = 0
+text = "1"
+
+[node name="Pixels2" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions"]
+margin_left = 179.0
+margin_top = 2.0
+margin_right = 198.0
+margin_bottom = 22.0
+custom_fonts/font = ExtResource( 3 )
+text = "px"
+
+[node name="VMarginChar" parent="TextureInfoControl/Panel/Margin/Scroll/Items" instance=ExtResource( 4 )]
+margin_top = 300.0
+margin_right = 200.0
+margin_bottom = 315.0
+
+[node name="BaseFromTopLabel" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+margin_top = 319.0
+margin_right = 200.0
+margin_bottom = 339.0
+custom_fonts/font = ExtResource( 3 )
+text = "BASE_FROM_TOP"
+
+[node name="BaseSettings" type="HBoxContainer" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+margin_top = 343.0
+margin_right = 200.0
+margin_bottom = 367.0
+
+[node name="DecreaseButton" type="Button" parent="TextureInfoControl/Panel/Margin/Scroll/Items/BaseSettings"]
+margin_right = 50.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 50, 0 )
+text = "<"
+
+[node name="BaseValue" type="LineEdit" parent="TextureInfoControl/Panel/Margin/Scroll/Items/BaseSettings"]
+margin_left = 54.0
+margin_right = 122.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 68, 0 )
+text = "0"
+
+[node name="Pixels3" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items/BaseSettings"]
+margin_left = 126.0
+margin_top = 2.0
+margin_right = 145.0
+margin_bottom = 22.0
+custom_fonts/font = ExtResource( 3 )
+text = "px"
+
+[node name="IncreaseButton" type="Button" parent="TextureInfoControl/Panel/Margin/Scroll/Items/BaseSettings"]
+margin_left = 149.0
+margin_right = 199.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 50, 0 )
+text = ">"
+
+[node name="BaseFromTopMargin" parent="TextureInfoControl/Panel/Margin/Scroll/Items" instance=ExtResource( 5 )]
+margin_top = 371.0
+margin_right = 200.0
+margin_bottom = 371.0
+
+[node name="CharacterListLabel" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+margin_top = 375.0
+margin_right = 200.0
+margin_bottom = 395.0
+custom_fonts/font = ExtResource( 3 )
+text = "CHAR_LIST"
+
+[node name="CharacterListEdit" type="TextEdit" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+margin_top = 399.0
+margin_right = 200.0
+margin_bottom = 475.0
+rect_min_size = Vector2( 0, 76 )
+custom_fonts/font = SubResource( 2 )
+selecting_enabled = false
+wrap_enabled = true
+
+[node name="VMarginCharList" parent="TextureInfoControl/Panel/Margin/Scroll/Items" instance=ExtResource( 4 )]
+margin_top = 479.0
+margin_right = 200.0
+margin_bottom = 494.0
+
+[node name="ExportButton" type="Button" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+margin_top = 498.0
+margin_right = 200.0
+margin_bottom = 538.0
+rect_min_size = Vector2( 0, 40 )
+custom_fonts/font = ExtResource( 3 )
+text = "EXPORT_FNT"
+
+[node name="InfoDialog" type="AcceptDialog" parent="."]
+margin_left = 575.0
+margin_right = 696.0
+margin_bottom = 100.0
+popup_exclusive = true
+dialog_text = "Dialog message."
+
+[node name="FntOverwriteConfirmation" type="ConfirmationDialog" parent="."]
+margin_left = 700.0
+margin_right = 856.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 0, 0 )
+popup_exclusive = true
+dialog_text = "FILE_EXISTS"
