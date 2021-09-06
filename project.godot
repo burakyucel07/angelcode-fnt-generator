@@ -14,8 +14,11 @@ _global_script_class_icons={
 
 [application]
 
-config/name="angelcode-fnt-generator"
+config/name="Angelcode .fnt Generator"
 run/main_scene="res://scenes/main/main.tscn"
+boot_splash/image="res://system/black_brush.png"
+boot_splash/use_filter=false
+boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://system/icon.png"
 
 [display]
