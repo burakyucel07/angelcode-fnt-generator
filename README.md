@@ -14,3 +14,6 @@ This standalone tool is made for Godot Engine projects. It's used for implementi
 9. Set the X Advance using the increase/decrease buttons. Also, you can enter a value but the value couldn't be bigger than the width of characters (You've set this in step 4).
 10. You can switch to the next char or previous char using these controls. In the example, it says this texture has 231 characters (character index starts with 0) with the info you've given.
 11. Export the .fnt file using this button. .fnt file will be exported to the same directory that the texture file is in. If there is a file with the same name, the tool will ask if you want to overwrite it.
+
+## License
+This project has MIT license. Godot Engine license: https://godotengine.org/license
