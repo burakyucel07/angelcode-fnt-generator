@@ -24,9 +24,9 @@ var file_structure = {
 		"pages": 1,
 		"packed": 0,
 		"alphaChnl": 0,
-		"redChnl": 4,
-		"greenChnl": 4,
-		"blueChnl": 4,
+		"redChnl": 0,
+		"greenChnl": 0,
+		"blueChnl": 0,
 	},
 	"pages": [
 		{
