@@ -3,6 +3,7 @@ extends HBoxContainer
 
 signal form_field_updated(new_values)
 signal export_button_pressed()
+signal export_as_xml_button_pressed()
 signal selected_char_index_changed(new_index, char_advance)
 signal file_selected(texture_info)
 
@@ -42,6 +43,7 @@ onready var increase_base_button = $"TextureInfoControl/Panel/Margin/Scroll/Item
 onready var base_value_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/BaseSettings/BaseValue"
 onready var char_list_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/CharacterListEdit"
 onready var export_button = $"TextureInfoControl/Panel/Margin/Scroll/Items/ExportButton"
+onready var export_as_xml_button = $"TextureInfoControl/Panel/Margin/Scroll/Items/ExportAsXMLButton"
 
 onready var info_dialog = $"InfoDialog"
 onready var overwrite_dialog = $"FntOverwriteConfirmation"
@@ -60,6 +62,7 @@ func _ready() -> void:
 	increase_base_button.connect("pressed", self, "_on_increase_base_button_pressed")
 	base_value_edit.connect("focus_exited", self, "_on_base_value_edit_focus_exited")
 	export_button.connect("pressed", self, "_on_export_button_pressed")
+	export_as_xml_button.connect("pressed", self, "_on_export_as_xml_button_pressed")
 	
 	decrease_advance_button.connect("pressed", self, "_on_decrease_advance_button_pressed")
 	increase_advance_button.connect("pressed", self, "_on_increase_advance_button_pressed")
@@ -69,6 +72,7 @@ func _ready() -> void:
 	current_char_edit.connect("text_changed", self, "_on_current_char_edit_text_changed")
 	
 	texture_name_edit.connect("focus_exited", self, "_on_texture_name_edit_focus_exited")
+	
 	
 	_unlock_edit_buttons(false)
 	
@@ -326,8 +330,8 @@ func _on_base_value_edit_focus_exited() -> void:
 	emit_signal("form_field_updated", {"base_from_top": parsed_value})
 
 
-func _on_export_button_pressed() -> void:
-	var export_values = {
+func _get_export_values():
+	return {
 		"font_name": font_name_edit.text,
 		"texture_name": texture_name_edit.text,
 		"char_dimensions": Vector2(int(char_width_edit.text), int(char_height_edit.text)),
@@ -337,5 +341,15 @@ func _on_export_button_pressed() -> void:
 		"advance_infos": advance_infos.slice(0, char_list_edit.text.length()),
 		"file_extension": texture_file_extension,
 	}
+
+
+func _on_export_button_pressed() -> void:
+	var export_values = _get_export_values()
 	
 	emit_signal("export_button_pressed", export_values)
+
+
+func _on_export_as_xml_button_pressed() -> void:
+	var export_values = _get_export_values()
+	
+	emit_signal("export_as_xml_button_pressed", export_values)

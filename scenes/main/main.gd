@@ -1,18 +1,25 @@
 extends Node2D
 
 
+enum ExportType {
+	TEXT,
+	XML,
+}
+
 onready var font_image = get_node("FontImage")
 onready var user_interface = get_node("Controls/UserInterface")
 
 var export_directory = ""
 var export_file = ""
 var fnt_file = null
+var current_export_type = ExportType.TEXT
 
 func _ready():
 	user_interface.connect("file_selected", self, "_on_file_selected")
 	user_interface.connect("form_field_updated", self, "_on_form_field_updated")
 	user_interface.connect("selected_char_index_changed", self, "_on_selected_char_index_changed")
 	user_interface.connect("export_button_pressed", self, "_on_export_button_pressed")
+	user_interface.connect("export_as_xml_button_pressed", self, "_on_export_as_xml_button_pressed")
 	user_interface.overwrite_dialog.get_ok().connect("pressed", self, "_on_overwrite_confirm_pressed")
 
 
@@ -21,10 +28,34 @@ func _on_overwrite_confirm_pressed():
 
 
 func _export():
-	if fnt_file.export_to(export_directory, export_file):
+	var export_result: bool = false
+	
+	if current_export_type == ExportType.TEXT:
+		export_result = fnt_file.export_as_text_to(export_directory, export_file)
+	elif current_export_type == ExportType.XML:
+		export_result = fnt_file.export_as_xml_to(export_directory, export_file)
+	
+	if export_result:
 		user_interface.open_dialog(tr("FILE_EXPORT_SUCCESS"))
 	else:
 		user_interface.open_dialog(tr("FILE_EXPORT_ERROR"))
+
+
+func _prepare_for_export(export_values, export_type):
+	fnt_file = load("res://components/fnt_file.gd").new()
+	fnt_file.add_values(export_values)
+	
+	current_export_type = export_type
+	
+	var file_to_export: File = File.new()
+	export_file = export_values.texture_name + "." + export_values.file_extension
+	var do_file_exist: bool = file_to_export.file_exists(
+			export_directory + "/" + export_values.texture_name + ".fnt")
+	
+	if do_file_exist:
+		user_interface.open_overwrite_confirm_dialog()
+	else:
+		_export()
 
 
 func _on_file_selected(tex_info: Dictionary) -> void:
@@ -56,15 +87,8 @@ func _on_selected_char_index_changed(new_index, char_advance):
 
 
 func _on_export_button_pressed(export_values):
-	fnt_file = load("res://components/fnt_file.gd").new()
-	fnt_file.add_values(export_values)
-	
-	var file_to_export: File = File.new()
-	export_file = export_values.texture_name + "." + export_values.file_extension
-	var do_file_exist: bool = file_to_export.file_exists(
-			export_directory + "/" + export_values.texture_name + ".fnt")
-	
-	if do_file_exist:
-		user_interface.open_overwrite_confirm_dialog()
-	else:
-		_export()
+	_prepare_for_export(export_values, ExportType.TEXT)
+
+
+func _on_export_as_xml_button_pressed(export_values):
+	_prepare_for_export(export_values, ExportType.XML)

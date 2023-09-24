@@ -19,9 +19,6 @@ margin_bottom = -1.18921
 mouse_filter = 2
 alignment = 2
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="LetterControl" type="MarginContainer" parent="."]
 margin_right = 179.0
@@ -263,15 +260,13 @@ custom_constants/margin_bottom = 10
 [node name="OpenFile" type="FileDialog" parent="TextureInfoControl"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 267.0
+margin_right = 265.0
 margin_bottom = 630.0
 popup_exclusive = true
 window_title = "Open a File"
 resizable = true
 mode = 0
 access = 2
-current_dir = "/Burak/Diğer/angelcode-fnt-generator"
-current_path = "/Burak/Diğer/angelcode-fnt-generator/"
 
 [node name="Panel" type="PanelContainer" parent="TextureInfoControl"]
 margin_left = 10.0
@@ -299,7 +294,7 @@ rect_min_size = Vector2( 200, 0 )
 
 [node name="Items" type="VBoxContainer" parent="TextureInfoControl/Panel/Margin/Scroll"]
 margin_right = 200.0
-margin_bottom = 538.0
+margin_bottom = 582.0
 rect_min_size = Vector2( 200, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -500,6 +495,14 @@ margin_bottom = 538.0
 rect_min_size = Vector2( 0, 40 )
 custom_fonts/font = ExtResource( 3 )
 text = "EXPORT_FNT"
+
+[node name="ExportAsXMLButton" type="Button" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+margin_top = 542.0
+margin_right = 200.0
+margin_bottom = 582.0
+rect_min_size = Vector2( 0, 40 )
+custom_fonts/font = ExtResource( 3 )
+text = "EXPORT_FNT_AS_XML"
 
 [node name="InfoDialog" type="AcceptDialog" parent="."]
 margin_left = 575.0
