@@ -20,58 +20,58 @@ var current_char_index: int = 0
 
 var texture_file_extension: String = ""
 
-onready var open_file_dialog = $"TextureInfoControl/OpenFile"
+@onready var open_file_dialog = $"TextureInfoControl/OpenFile"
 
-onready var current_char_rect = $"LetterControl/Items/Panel/Controls/Texture/Panel/Char"
-onready var current_char_advance = $"LetterControl/Items/Panel/Controls/Texture/Panel/Advance"
-onready var decrease_advance_button = $"LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Buttons/Decrease"
-onready var increase_advance_button = $"LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Buttons/Increase"
-onready var current_advance_edit = $"LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Edit/CurrentAdvance"
-onready var advance_limit_label = $"LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Edit/AdvanceLimit"
-onready var prev_char_button = $"LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls/PrevChar"
-onready var next_char_button = $"LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls/NextChar"
-onready var current_char_edit = $"LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls/CurrentChar"
-onready var char_count_label = $"LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls/CharCount"
+@onready var current_char_rect = $"LetterControl/Items/Panel/Controls/Texture/Panel/Char"
+@onready var current_char_advance = $"LetterControl/Items/Panel/Controls/Texture/Panel/Advance"
+@onready var decrease_advance_button = $"LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Buttons/Decrease"
+@onready var increase_advance_button = $"LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Buttons/Increase"
+@onready var current_advance_edit = $"LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Edit/CurrentAdvance"
+@onready var advance_limit_label = $"LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Edit/AdvanceLimit"
+@onready var prev_char_button = $"LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls/PrevChar"
+@onready var next_char_button = $"LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls/NextChar"
+@onready var current_char_edit = $"LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls/CurrentChar"
+@onready var char_count_label = $"LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls/CharCount"
 
-onready var image_load_button = $"TextureInfoControl/Panel/Margin/Scroll/Items/ImageLoad"
-onready var font_name_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/FontNameEdit"
-onready var texture_name_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/TextureNameEdit"
-onready var char_width_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions/CharacterWidthEdit"
-onready var char_height_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions/CharacterHeightEdit"
-onready var decrease_base_button = $"TextureInfoControl/Panel/Margin/Scroll/Items/BaseSettings/DecreaseButton"
-onready var increase_base_button = $"TextureInfoControl/Panel/Margin/Scroll/Items/BaseSettings/IncreaseButton"
-onready var base_value_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/BaseSettings/BaseValue"
-onready var char_list_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/CharacterListEdit"
-onready var export_button = $"TextureInfoControl/Panel/Margin/Scroll/Items/ExportButton"
-onready var export_as_xml_button = $"TextureInfoControl/Panel/Margin/Scroll/Items/ExportAsXMLButton"
+@onready var image_load_button = $"TextureInfoControl/Panel/Margin/Scroll/Items/ImageLoad"
+@onready var font_name_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/FontNameEdit"
+@onready var texture_name_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/TextureNameEdit"
+@onready var char_width_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions/CharacterWidthEdit"
+@onready var char_height_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions/CharacterHeightEdit"
+@onready var decrease_base_button = $"TextureInfoControl/Panel/Margin/Scroll/Items/BaseSettings/DecreaseButton"
+@onready var increase_base_button = $"TextureInfoControl/Panel/Margin/Scroll/Items/BaseSettings/IncreaseButton"
+@onready var base_value_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/BaseSettings/BaseValue"
+@onready var char_list_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/CharacterListEdit"
+@onready var export_button = $"TextureInfoControl/Panel/Margin/Scroll/Items/ExportButton"
+@onready var export_as_xml_button = $"TextureInfoControl/Panel/Margin/Scroll/Items/ExportAsXMLButton"
 
-onready var info_dialog = $"InfoDialog"
-onready var overwrite_dialog = $"FntOverwriteConfirmation"
+@onready var info_dialog = $"InfoDialog"
+@onready var overwrite_dialog = $"FntOverwriteConfirmation"
 
 func _ready() -> void:
-	open_file_dialog.connect("file_selected", self, "_on_file_selected")
+	open_file_dialog.connect("file_selected", _on_file_selected)
 	
-	image_load_button.connect("pressed", self, "_on_image_load_button_pressed")
-	char_width_edit.connect("focus_exited", self, "_on_char_width_edit_focus_exited")
-	char_height_edit.connect("focus_exited", self, "_on_char_height_edit_focus_exited")
+	image_load_button.connect("pressed", _on_image_load_button_pressed)
+	char_width_edit.connect("focus_exited", _on_char_width_edit_focus_exited)
+	char_height_edit.connect("focus_exited", _on_char_height_edit_focus_exited)
 	
-	current_advance_edit.connect("focus_exited", self, "_on_char_advance_edit_focus_exited")
-	current_char_edit.connect("focus_exited", self, "_on_current_char_edit_focus_exited")
+	current_advance_edit.connect("focus_exited", _on_char_advance_edit_focus_exited)
+	current_char_edit.connect("focus_exited", _on_current_char_edit_focus_exited)
 	
-	decrease_base_button.connect("pressed", self, "_on_decrease_base_button_pressed")
-	increase_base_button.connect("pressed", self, "_on_increase_base_button_pressed")
-	base_value_edit.connect("focus_exited", self, "_on_base_value_edit_focus_exited")
-	export_button.connect("pressed", self, "_on_export_button_pressed")
-	export_as_xml_button.connect("pressed", self, "_on_export_as_xml_button_pressed")
+	decrease_base_button.connect("pressed", _on_decrease_base_button_pressed)
+	increase_base_button.connect("pressed", _on_increase_base_button_pressed)
+	base_value_edit.connect("focus_exited", _on_base_value_edit_focus_exited)
+	export_button.connect("pressed", _on_export_button_pressed)
+	export_as_xml_button.connect("pressed", _on_export_as_xml_button_pressed)
 	
-	decrease_advance_button.connect("pressed", self, "_on_decrease_advance_button_pressed")
-	increase_advance_button.connect("pressed", self, "_on_increase_advance_button_pressed")
-	current_advance_edit.connect("text_changed", self, "_on_current_advance_edit_text_changed")
-	prev_char_button.connect("pressed", self, "_on_prev_char_button_pressed")
-	next_char_button.connect("pressed", self, "_on_next_char_button_pressed")
-	current_char_edit.connect("text_changed", self, "_on_current_char_edit_text_changed")
+	decrease_advance_button.connect("pressed", _on_decrease_advance_button_pressed)
+	increase_advance_button.connect("pressed", _on_increase_advance_button_pressed)
+	#current_advance_edit.connect("text_changed", _on_current_advance_edit_text_changed)
+	prev_char_button.connect("pressed", _on_prev_char_button_pressed)
+	next_char_button.connect("pressed", _on_next_char_button_pressed)
+	#current_char_edit.connect("text_changed", _on_current_char_edit_text_changed)
 	
-	texture_name_edit.connect("focus_exited", self, "_on_texture_name_edit_focus_exited")
+	#texture_name_edit.connect("focus_exited", _on_texture_name_edit_focus_exited)
 	
 	
 	_unlock_edit_buttons(false)
@@ -131,22 +131,16 @@ func _unlock_edit_buttons(value: bool) -> void:
 	next_char_button.disabled = !value
 	current_char_edit.editable = value
 	font_name_edit.editable = value
-	char_list_edit.readonly = !value
+	char_list_edit.editable = value
 	export_button.disabled = !value
 
 
 func _on_file_selected(file_path: String) -> void:
-	var image = Image.new()
-	var tex = null
-	var err = image.load(file_path)
-	if err != OK:
-		print(err)
-	else:
-		tex = ImageTexture.new()
-		tex.create_from_image(image, 0)
+	var image = Image.load_from_file(file_path)
+	var tex = ImageTexture.create_from_image(image)
 	
 	var texture_info = {
-		"texture": null,
+		"tex": null,
 		"is_texture_loaded": false,
 		"texture_path": file_path,
 		"texture_directory": "",
@@ -165,7 +159,7 @@ func _on_file_selected(file_path: String) -> void:
 		var file_directory_tokens = file_path.split("/")
 		var file_name_tokens = file_directory_tokens[file_directory_tokens.size() - 1].split(".")
 		texture_file_extension = file_name_tokens[file_name_tokens.size() - 1]
-		file_name_tokens.remove(file_name_tokens.size() - 1)
+		file_name_tokens.remove_at(file_name_tokens.size() - 1)
 		for i in range(file_name_tokens.size()):
 			texture_name_edit.text += file_name_tokens[i]
 			font_name_edit.text += file_name_tokens[i]
@@ -195,11 +189,11 @@ func _update_current_visible_char():
 	current_advance_edit.text = str(advance_infos[selected_index])
 	current_char_edit.text = str(selected_index)
 	
-	current_char_rect.rect_min_size.x = advance_infos[selected_index]
-	current_char_rect.rect_min_size.y = advance_infos[selected_index]
+	current_char_rect.custom_minimum_size.x = advance_infos[selected_index]
+	current_char_rect.custom_minimum_size.y = advance_infos[selected_index]
 	
-	current_char_advance.rect_min_size.x = advance_infos[selected_index]
-	current_char_advance.rect_min_size.y = advance_infos[selected_index]
+	current_char_advance.custom_minimum_size.x = advance_infos[selected_index]
+	current_char_advance.custom_minimum_size.y = advance_infos[selected_index]
 
 
 func _on_image_load_button_pressed() -> void:

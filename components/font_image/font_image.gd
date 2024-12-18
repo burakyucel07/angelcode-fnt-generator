@@ -1,4 +1,4 @@
-extends Sprite
+extends Sprite2D
 
 
 const CHAR_SEPARATOR_COLOR: Color = Color(0, 1.0, 0, 0.5)
@@ -27,7 +27,7 @@ func set_current_letter(index: int) -> void:
 	letter_indices.x = index % int(char_counts.x)
 	letter_indices.y = floor(index / char_counts.x)
 	
-	update()
+	#update()
 
 
 func _input(event: InputEvent) -> void:
@@ -38,17 +38,17 @@ func _handle_image_controls(event: InputEvent):
 	if event is InputEventMouseButton:
 		if event.pressed:
 			match event.button_index:
-				BUTTON_MIDDLE:
+				MOUSE_BUTTON_MIDDLE:
 					is_mouse_pressed = event.pressed
-				BUTTON_WHEEL_UP:
+				MOUSE_BUTTON_WHEEL_UP:
 					current_zoom_amount = min(current_zoom_amount + 1, MAX_ZOOM_AMOUNT)
 					scale = Vector2.ONE * current_zoom_amount
-				BUTTON_WHEEL_DOWN:
+				MOUSE_BUTTON_WHEEL_DOWN:
 					current_zoom_amount = max(current_zoom_amount - 1, MIN_ZOOM_AMOUNT)
 					scale = Vector2.ONE * current_zoom_amount
 		if not event.pressed:
 			match event.button_index:
-				BUTTON_MIDDLE:
+				MOUSE_BUTTON_MIDDLE:
 					is_mouse_pressed = event.pressed
 	
 	if event is InputEventMouseMotion and is_mouse_pressed:
@@ -107,7 +107,7 @@ func _draw_letter_separators():
 func set_current_char_advance(value: int) -> void:
 	current_char_advance = value
 	
-	update()
+	#update()
 
 
 func set_wireframe(options: Dictionary) -> void:
@@ -117,16 +117,16 @@ func set_wireframe(options: Dictionary) -> void:
 	if options.has("char_width") and int(options["char_width"]) != char_dimensions.x:
 		char_dimensions.x = options.char_width
 		char_counts.x = get_horizontal_char_count()
-		update()
+		#update()
 	
 	if options.has("char_height") and int(options["char_height"]) != char_dimensions.y:
 		char_dimensions.y = options.char_height
 		char_counts.y = get_vertical_char_count()
-		update()
+		#update()
 		
 	if options.has("base_from_top") and int(options["base_from_top"]) != base_offset:
 		base_offset = options.base_from_top
-		update()
+		#update()
 
 
 func set_image(tex: Texture) -> void:
@@ -142,7 +142,7 @@ func set_image(tex: Texture) -> void:
 	
 	is_texture_set = true
 	
-	update()
+	#update()
 
 
 func set_char_width(value: int) -> void:

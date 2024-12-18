@@ -6,19 +6,16 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
-
-_global_script_classes=[  ]
-_global_script_class_icons={
-}
+config_version=5
 
 [application]
 
 config/name="Angelcode .fnt Generator"
 run/main_scene="res://scenes/main/main.tscn"
+config/features=PackedStringArray("4.3")
+boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/image="res://system/black_brush.png"
 boot_splash/use_filter=false
-boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://system/icon.png"
 
 [display]
@@ -28,7 +25,7 @@ window/size/height=640
 
 [locale]
 
-translations=PoolStringArray( "res://translations/system.en.translation" )
+translations=PackedStringArray("res://translations/system.en.translation")
 
 [rendering]
 
