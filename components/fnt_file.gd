@@ -1,3 +1,4 @@
+class_name FNTFile
 extends Node
 
 
@@ -43,8 +44,8 @@ var char_data_keys = [
 ]
 
 
-func add_char(character, x, y, width, height, x_advance):
-	var raw_code = str(character).to_wchar().hex_encode()
+func add_char(character: String, x, y, width, height, x_advance):
+	var raw_code = character.to_wchar_buffer().hex_encode()
 	var char_id = "0x" + raw_code.substr(2, 2) + raw_code.substr(0, 2)
 	char_id = char_id.hex_to_int()
 	
@@ -125,10 +126,9 @@ func export_as_text_to(directory, tex_name) -> bool:
 	
 	fnt_data += "kernings count=" + str(file_structure.kernings.size()) + "\n"
 	
-	var file = File.new()
-	var err = file.open(directory + "/" + tex_name.split(".")[0] + ".fnt", File.WRITE)
-	if err != OK:
-		print(err)
+	var file = FileAccess.open(directory + "/" + tex_name.split(".")[0] + ".fnt", FileAccess.WRITE)
+	if file == null:
+		print(file.get_open_error())
 		return false
 
 	file.store_string(fnt_data)
@@ -187,10 +187,9 @@ func export_as_xml_to(directory, tex_name) -> bool:
 	
 	fnt_data += '</font>\n'
 	
-	var file = File.new()
-	var err = file.open(directory + "/" + tex_name.split(".")[0] + ".fnt", File.WRITE)
-	if err != OK:
-		print(err)
+	var file = FileAccess.open(directory + "/" + tex_name.split(".")[0] + ".fnt", FileAccess.WRITE)
+	if file == null:
+		print(file.get_open_error())
 		return false
 
 	file.store_string(fnt_data)
@@ -203,7 +202,7 @@ func _format_fnt_data_value(value):
 	match typeof(value):
 		TYPE_INT:
 			return str(value)
-		TYPE_REAL:
+		TYPE_FLOAT:
 			return str(value)
 		TYPE_STRING:
 			return "\"" + str(value) + "\""
@@ -221,7 +220,7 @@ func _format_fnt_data_value_as_xml(value):
 	match typeof(value):
 		TYPE_INT:
 			return str(value)
-		TYPE_REAL:
+		TYPE_FLOAT:
 			return str(value)
 		TYPE_STRING:
 			return str(value)

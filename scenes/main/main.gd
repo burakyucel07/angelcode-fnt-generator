@@ -6,8 +6,8 @@ enum ExportType {
 	XML,
 }
 
-onready var font_image = get_node("FontImage")
-onready var user_interface = get_node("Controls/UserInterface")
+@onready var font_image = get_node("FontImage")
+@onready var user_interface = get_node("Controls/UserInterface")
 
 var export_directory = ""
 var export_file = ""
@@ -15,12 +15,12 @@ var fnt_file = null
 var current_export_type = ExportType.TEXT
 
 func _ready():
-	user_interface.connect("file_selected", self, "_on_file_selected")
-	user_interface.connect("form_field_updated", self, "_on_form_field_updated")
-	user_interface.connect("selected_char_index_changed", self, "_on_selected_char_index_changed")
-	user_interface.connect("export_button_pressed", self, "_on_export_button_pressed")
-	user_interface.connect("export_as_xml_button_pressed", self, "_on_export_as_xml_button_pressed")
-	user_interface.overwrite_dialog.get_ok().connect("pressed", self, "_on_overwrite_confirm_pressed")
+	user_interface.connect("file_selected", _on_file_selected)
+	user_interface.connect("form_field_updated", _on_form_field_updated)
+	user_interface.connect("selected_char_index_changed", _on_selected_char_index_changed)
+	user_interface.connect("export_button_pressed", _on_export_button_pressed)
+	user_interface.connect("export_as_xml_button_pressed", _on_export_as_xml_button_pressed)
+	user_interface.overwrite_dialog.get_ok_button().connect("pressed", _on_overwrite_confirm_pressed)
 
 
 func _on_overwrite_confirm_pressed():
@@ -42,14 +42,13 @@ func _export():
 
 
 func _prepare_for_export(export_values, export_type):
-	fnt_file = load("res://components/fnt_file.gd").new()
+	fnt_file = FNTFile.new()
 	fnt_file.add_values(export_values)
 	
 	current_export_type = export_type
 	
-	var file_to_export: File = File.new()
 	export_file = export_values.texture_name + "." + export_values.file_extension
-	var do_file_exist: bool = file_to_export.file_exists(
+	var do_file_exist: bool = FileAccess.file_exists(
 			export_directory + "/" + export_values.texture_name + ".fnt")
 	
 	if do_file_exist:
