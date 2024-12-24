@@ -21,3 +21,10 @@ limit_bottom = 0
 [node name="Controls" type="CanvasLayer" parent="."]
 
 [node name="UserInterface" parent="Controls" instance=ExtResource("4")]
+unique_name_in_owner = true
+
+[connection signal="export_as_xml_button_pressed" from="Controls/UserInterface" to="." method="_on_export_as_xml_button_pressed"]
+[connection signal="export_button_pressed" from="Controls/UserInterface" to="." method="_on_export_button_pressed"]
+[connection signal="file_selected" from="Controls/UserInterface" to="." method="_on_file_selected"]
+[connection signal="form_field_updated" from="Controls/UserInterface" to="." method="_on_form_field_updated"]
+[connection signal="selected_char_index_changed" from="Controls/UserInterface" to="." method="_on_selected_char_index_changed"]

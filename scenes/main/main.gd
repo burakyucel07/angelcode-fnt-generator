@@ -6,8 +6,8 @@ enum ExportType {
 	XML,
 }
 
-@onready var font_image = get_node("FontImage")
-@onready var user_interface = get_node("Controls/UserInterface")
+@onready var font_image = $FontImage
+@onready var user_interface = %UserInterface
 
 var export_directory = ""
 var export_file = ""
@@ -15,11 +15,6 @@ var fnt_file = null
 var current_export_type = ExportType.TEXT
 
 func _ready():
-	user_interface.file_selected.connect(_on_file_selected)
-	user_interface.form_field_updated.connect(_on_form_field_updated)
-	user_interface.selected_char_index_changed.connect(_on_selected_char_index_changed)
-	user_interface.export_button_pressed.connect(_on_export_button_pressed)
-	user_interface.export_as_xml_button_pressed.connect(_on_export_as_xml_button_pressed)
 	user_interface.overwrite_dialog.get_ok_button().pressed.connect(_on_overwrite_confirm_pressed)
 
 
