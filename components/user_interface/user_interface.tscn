@@ -295,7 +295,6 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 size_flags_vertical = 3
-selecting_enabled = false
 wrap_mode = 1
 autowrap_mode = 1
 
