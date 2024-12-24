@@ -1,8 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://rcj2mnv6rwrf"]
+[gd_scene load_steps=3 format=3 uid="uid://rcj2mnv6rwrf"]
 
 [ext_resource type="Script" path="res://components/user_interface/user_interface.gd" id="2"]
-[ext_resource type="PackedScene" path="res://components/user_interface/components/vertical_margin.tscn" id="4"]
-[ext_resource type="PackedScene" path="res://components/user_interface/components/horizontal_margin.tscn" id="5"]
 
 [sub_resource type="AtlasTexture" id="1"]
 
@@ -14,147 +12,134 @@ mouse_filter = 2
 alignment = 2
 script = ExtResource("2")
 
-[node name="LetterControl" type="MarginContainer" parent="."]
+[node name="AdvancePanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="LetterControl" type="MarginContainer" parent="AdvancePanel"]
 layout_mode = 2
 
-[node name="Items" type="VBoxContainer" parent="LetterControl"]
+[node name="Controls" type="VBoxContainer" parent="AdvancePanel/LetterControl"]
 layout_mode = 2
+theme_override_constants/separation = 8
 
-[node name="Panel" type="PanelContainer" parent="LetterControl/Items"]
-layout_mode = 2
-
-[node name="Controls" type="VBoxContainer" parent="LetterControl/Items/Panel"]
-layout_mode = 2
-
-[node name="Texture" type="HBoxContainer" parent="LetterControl/Items/Panel/Controls"]
+[node name="Texture" type="HBoxContainer" parent="AdvancePanel/LetterControl/Controls"]
 layout_mode = 2
 alignment = 1
 
-[node name="Panel" type="PanelContainer" parent="LetterControl/Items/Panel/Controls/Texture"]
+[node name="Panel" type="PanelContainer" parent="AdvancePanel/LetterControl/Controls/Texture"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
-[node name="Char" type="TextureRect" parent="LetterControl/Items/Panel/Controls/Texture/Panel"]
+[node name="SelectedChar" type="TextureRect" parent="AdvancePanel/LetterControl/Controls/Texture/Panel"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 texture = SubResource("1")
 
-[node name="Advance" type="ColorRect" parent="LetterControl/Items/Panel/Controls/Texture/Panel"]
+[node name="CurrentAdvance" type="ColorRect" parent="AdvancePanel/LetterControl/Controls/Texture/Panel"]
+unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0.498039)
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="AdvanceControls" type="HBoxContainer" parent="LetterControl/Items/Panel/Controls"]
+[node name="Items" type="VBoxContainer" parent="AdvancePanel/LetterControl/Controls"]
 layout_mode = 2
 
-[node name="Centering" type="CenterContainer" parent="LetterControl/Items/Panel/Controls/AdvanceControls"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Items" type="VBoxContainer" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering"]
-layout_mode = 2
-
-[node name="HorizontalMargin" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items" instance=ExtResource("5")]
-layout_mode = 2
-
-[node name="TextAdvance" type="HBoxContainer" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items"]
-layout_mode = 2
-
-[node name="XAdvance" type="Label" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/TextAdvance"]
+[node name="XAdvance" type="Label" parent="AdvancePanel/LetterControl/Controls/Items"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "X Advance"
 horizontal_alignment = 1
 
-[node name="Edit" type="HBoxContainer" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items"]
+[node name="Edit" type="HBoxContainer" parent="AdvancePanel/LetterControl/Controls/Items"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CurrentAdvance" type="LineEdit" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Edit"]
+[node name="CurrentAdvanceEdit" type="LineEdit" parent="AdvancePanel/LetterControl/Controls/Items/Edit"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "0"
 
-[node name="Pixels2" type="Label" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Edit"]
+[node name="Pixels2" type="Label" parent="AdvancePanel/LetterControl/Controls/Items/Edit"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "px"
 horizontal_alignment = 1
 
-[node name="Slash" type="Label" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Edit"]
+[node name="Slash" type="Label" parent="AdvancePanel/LetterControl/Controls/Items/Edit"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "/"
 horizontal_alignment = 1
 
-[node name="AdvanceLimit" type="Label" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Edit"]
+[node name="AdvanceLimit" type="Label" parent="AdvancePanel/LetterControl/Controls/Items/Edit"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "10"
 horizontal_alignment = 1
 
-[node name="Pixels" type="Label" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Edit"]
+[node name="Pixels" type="Label" parent="AdvancePanel/LetterControl/Controls/Items/Edit"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "px"
 horizontal_alignment = 1
 
-[node name="Buttons" type="HBoxContainer" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items"]
+[node name="Buttons" type="HBoxContainer" parent="AdvancePanel/LetterControl/Controls/Items"]
 layout_mode = 2
 
-[node name="Decrease" type="Button" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Buttons"]
+[node name="Decrease" type="Button" parent="AdvancePanel/LetterControl/Controls/Items/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "<"
 
-[node name="Increase" type="Button" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Buttons"]
+[node name="Increase" type="Button" parent="AdvancePanel/LetterControl/Controls/Items/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = ">"
 
-[node name="HorizontalMargin2" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items" instance=ExtResource("5")]
-layout_mode = 2
-
-[node name="TextChars" type="HBoxContainer" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items"]
-layout_mode = 2
-
-[node name="Index" type="Label" parent="LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/TextChars"]
+[node name="Index" type="Label" parent="AdvancePanel/LetterControl/Controls"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "CURRENT_CHAR_INDEX"
 horizontal_alignment = 1
 
-[node name="LetterSwitch" type="HBoxContainer" parent="LetterControl/Items/Panel/Controls"]
+[node name="LetterSwitch" type="HBoxContainer" parent="AdvancePanel/LetterControl/Controls"]
 layout_mode = 2
 alignment = 1
 
-[node name="Centering" type="CenterContainer" parent="LetterControl/Items/Panel/Controls/LetterSwitch"]
+[node name="Centering" type="CenterContainer" parent="AdvancePanel/LetterControl/Controls/LetterSwitch"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Controls" type="HBoxContainer" parent="LetterControl/Items/Panel/Controls/LetterSwitch/Centering"]
+[node name="Controls" type="HBoxContainer" parent="AdvancePanel/LetterControl/Controls/LetterSwitch/Centering"]
 layout_mode = 2
 
-[node name="PrevChar" type="Button" parent="LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls"]
+[node name="PrevChar" type="Button" parent="AdvancePanel/LetterControl/Controls/LetterSwitch/Centering/Controls"]
 layout_mode = 2
 text = "<"
 
-[node name="CurrentChar" type="LineEdit" parent="LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls"]
+[node name="CurrentChar" type="LineEdit" parent="AdvancePanel/LetterControl/Controls/LetterSwitch/Centering/Controls"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "0"
 
-[node name="Slash" type="Label" parent="LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls"]
+[node name="Slash" type="Label" parent="AdvancePanel/LetterControl/Controls/LetterSwitch/Centering/Controls"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "/"
 
-[node name="CharCount" type="Label" parent="LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls"]
+[node name="CharCount" type="Label" parent="AdvancePanel/LetterControl/Controls/LetterSwitch/Centering/Controls"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "10"
 
-[node name="NextChar" type="Button" parent="LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls"]
+[node name="NextChar" type="Button" parent="AdvancePanel/LetterControl/Controls/LetterSwitch/Centering/Controls"]
 layout_mode = 2
 text = ">"
 
@@ -162,144 +147,192 @@ text = ">"
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TextureInfoControl" type="MarginContainer" parent="."]
+[node name="RightSide" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="OpenFile" type="FileDialog" parent="TextureInfoControl"]
-access = 2
-
-[node name="Panel" type="PanelContainer" parent="TextureInfoControl"]
+[node name="TextureInfo" type="PanelContainer" parent="RightSide"]
 layout_mode = 2
 
-[node name="Margin" type="MarginContainer" parent="TextureInfoControl/Panel"]
+[node name="Margin" type="MarginContainer" parent="RightSide/TextureInfo"]
 layout_mode = 2
 
-[node name="Scroll" type="ScrollContainer" parent="TextureInfoControl/Panel/Margin"]
+[node name="Items" type="VBoxContainer" parent="RightSide/TextureInfo/Margin"]
 layout_mode = 2
-horizontal_scroll_mode = 0
-
-[node name="Items" type="VBoxContainer" parent="TextureInfoControl/Panel/Margin/Scroll"]
-layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 8
 
-[node name="ProjectTitle" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+[node name="Title" type="VBoxContainer" parent="RightSide/TextureInfo/Margin/Items"]
+layout_mode = 2
+
+[node name="ProjectTitle" type="Label" parent="RightSide/TextureInfo/Margin/Items/Title"]
 layout_mode = 2
 text = "PROJECT_NAME"
 
-[node name="VMarginTitle" parent="TextureInfoControl/Panel/Margin/Scroll/Items" instance=ExtResource("4")]
-layout_mode = 2
-
-[node name="ImageLoad" type="Button" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+[node name="ImageLoad" type="Button" parent="RightSide/TextureInfo/Margin/Items/Title"]
 layout_mode = 2
 text = "LOAD_AN_IMAGE"
 
-[node name="VMarginLoad" parent="TextureInfoControl/Panel/Margin/Scroll/Items" instance=ExtResource("4")]
+[node name="FontName" type="VBoxContainer" parent="RightSide/TextureInfo/Margin/Items"]
 layout_mode = 2
 
-[node name="FontNameLabel" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+[node name="FontNameLabel" type="Label" parent="RightSide/TextureInfo/Margin/Items/FontName"]
 layout_mode = 2
 text = "FONT_NAME"
 
-[node name="FontNameEdit" type="LineEdit" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+[node name="FontNameEdit" type="LineEdit" parent="RightSide/TextureInfo/Margin/Items/FontName"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="VMarginFont" parent="TextureInfoControl/Panel/Margin/Scroll/Items" instance=ExtResource("4")]
+[node name="TextureName" type="VBoxContainer" parent="RightSide/TextureInfo/Margin/Items"]
 layout_mode = 2
 
-[node name="TextureNameLabel" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+[node name="TextureNameLabel" type="Label" parent="RightSide/TextureInfo/Margin/Items/TextureName"]
 layout_mode = 2
 text = "TEXTURE_NAME"
 
-[node name="TextureNameEdit" type="LineEdit" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+[node name="TextureNameEdit" type="LineEdit" parent="RightSide/TextureInfo/Margin/Items/TextureName"]
+unique_name_in_owner = true
+layout_mode = 2
+editable = false
+
+[node name="FontInfo" type="PanelContainer" parent="RightSide"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Scroll" type="ScrollContainer" parent="RightSide/FontInfo"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Margin" type="MarginContainer" parent="RightSide/FontInfo/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Items" type="VBoxContainer" parent="RightSide/FontInfo/Scroll/Margin"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="CharDimensions" type="VBoxContainer" parent="RightSide/FontInfo/Scroll/Margin/Items"]
 layout_mode = 2
 
-[node name="VMarginTexture" parent="TextureInfoControl/Panel/Margin/Scroll/Items" instance=ExtResource("4")]
-layout_mode = 2
-
-[node name="CharacterDimensionsLabel" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+[node name="CharDimensionsLabel" type="Label" parent="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions"]
 layout_mode = 2
 text = "CHAR_DIMENSIONS"
 
-[node name="CharacterDimensions" type="HBoxContainer" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+[node name="CharDimensions" type="HBoxContainer" parent="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="X" type="HBoxContainer" parent="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensions"]
 layout_mode = 2
 
-[node name="CharacterWidthEdit" type="LineEdit" parent="TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions"]
+[node name="CharWidthEdit" type="LineEdit" parent="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensions/X"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "1"
 
-[node name="Pixels" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions"]
+[node name="Pixels" type="Label" parent="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensions/X"]
 layout_mode = 2
 text = "px"
 
-[node name="HMarginX" parent="TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions" instance=ExtResource("5")]
-layout_mode = 2
-
-[node name="Times" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions"]
+[node name="Times" type="Label" parent="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensions"]
 layout_mode = 2
 text = "X"
 
-[node name="HMarginY" parent="TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions" instance=ExtResource("5")]
+[node name="Y" type="HBoxContainer" parent="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensions"]
 layout_mode = 2
 
-[node name="CharacterHeightEdit" type="LineEdit" parent="TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions"]
+[node name="CharHeightEdit" type="LineEdit" parent="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensions/Y"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "1"
 
-[node name="Pixels2" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions"]
+[node name="Pixels" type="Label" parent="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensions/Y"]
 layout_mode = 2
 text = "px"
 
-[node name="VMarginChar" parent="TextureInfoControl/Panel/Margin/Scroll/Items" instance=ExtResource("4")]
+[node name="BaseFromTop" type="VBoxContainer" parent="RightSide/FontInfo/Scroll/Margin/Items"]
 layout_mode = 2
 
-[node name="BaseFromTopLabel" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+[node name="BaseFromTopLabel" type="Label" parent="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop"]
 layout_mode = 2
 text = "BASE_FROM_TOP"
 
-[node name="BaseSettings" type="HBoxContainer" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+[node name="BaseSettings" type="HBoxContainer" parent="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop"]
 layout_mode = 2
 
-[node name="DecreaseButton" type="Button" parent="TextureInfoControl/Panel/Margin/Scroll/Items/BaseSettings"]
+[node name="DecreaseButton" type="Button" parent="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop/BaseSettings"]
 layout_mode = 2
 text = "<"
 
-[node name="BaseValue" type="LineEdit" parent="TextureInfoControl/Panel/Margin/Scroll/Items/BaseSettings"]
+[node name="BaseValue" type="LineEdit" parent="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop/BaseSettings"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 
-[node name="Pixels3" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items/BaseSettings"]
+[node name="Pixels3" type="Label" parent="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop/BaseSettings"]
 layout_mode = 2
 text = "px"
 
-[node name="IncreaseButton" type="Button" parent="TextureInfoControl/Panel/Margin/Scroll/Items/BaseSettings"]
+[node name="IncreaseButton" type="Button" parent="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop/BaseSettings"]
 layout_mode = 2
 text = ">"
 
-[node name="BaseFromTopMargin" parent="TextureInfoControl/Panel/Margin/Scroll/Items" instance=ExtResource("5")]
+[node name="CharList" type="VBoxContainer" parent="RightSide/FontInfo/Scroll/Margin/Items"]
 layout_mode = 2
+size_flags_vertical = 3
 
-[node name="CharacterListLabel" type="Label" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+[node name="CharListLabel" type="Label" parent="RightSide/FontInfo/Scroll/Margin/Items/CharList"]
 layout_mode = 2
 text = "CHAR_LIST"
 
-[node name="CharacterListEdit" type="TextEdit" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+[node name="CharListEdit" type="TextEdit" parent="RightSide/FontInfo/Scroll/Margin/Items/CharList"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 size_flags_vertical = 3
-selecting_enabled = false
+wrap_mode = 1
+autowrap_mode = 1
 
-[node name="VMarginCharList" parent="TextureInfoControl/Panel/Margin/Scroll/Items" instance=ExtResource("4")]
+[node name="Export" type="VBoxContainer" parent="RightSide/FontInfo/Scroll/Margin/Items"]
 layout_mode = 2
 
-[node name="ExportButton" type="Button" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+[node name="ExportButton" type="Button" parent="RightSide/FontInfo/Scroll/Margin/Items/Export"]
 layout_mode = 2
 text = "EXPORT_FNT"
 
-[node name="ExportAsXMLButton" type="Button" parent="TextureInfoControl/Panel/Margin/Scroll/Items"]
+[node name="ExportAsXMLButton" type="Button" parent="RightSide/FontInfo/Scroll/Margin/Items/Export"]
 layout_mode = 2
 text = "EXPORT_FNT_AS_XML"
 
+[node name="OpenFile" type="FileDialog" parent="."]
+unique_name_in_owner = true
+access = 2
+
 [node name="InfoDialog" type="AcceptDialog" parent="."]
+unique_name_in_owner = true
 dialog_text = "Dialog message."
 
-[node name="FntOverwriteConfirmation" type="ConfirmationDialog" parent="."]
+[node name="OverwriteConfirmation" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
 dialog_text = "FILE_EXISTS"
+
+[connection signal="focus_exited" from="AdvancePanel/LetterControl/Controls/Items/Edit/CurrentAdvanceEdit" to="." method="_on_char_advance_edit_focus_exited"]
+[connection signal="pressed" from="AdvancePanel/LetterControl/Controls/Items/Buttons/Decrease" to="." method="_on_decrease_advance_button_pressed"]
+[connection signal="pressed" from="AdvancePanel/LetterControl/Controls/Items/Buttons/Increase" to="." method="_on_increase_advance_button_pressed"]
+[connection signal="pressed" from="AdvancePanel/LetterControl/Controls/LetterSwitch/Centering/Controls/PrevChar" to="." method="_on_prev_char_button_pressed"]
+[connection signal="focus_exited" from="AdvancePanel/LetterControl/Controls/LetterSwitch/Centering/Controls/CurrentChar" to="." method="_on_current_char_edit_focus_exited"]
+[connection signal="pressed" from="AdvancePanel/LetterControl/Controls/LetterSwitch/Centering/Controls/NextChar" to="." method="_on_next_char_button_pressed"]
+[connection signal="pressed" from="RightSide/TextureInfo/Margin/Items/Title/ImageLoad" to="." method="_on_image_load_button_pressed"]
+[connection signal="focus_exited" from="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensions/X/CharWidthEdit" to="." method="_on_char_width_edit_focus_exited"]
+[connection signal="focus_exited" from="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensions/Y/CharHeightEdit" to="." method="_on_char_height_edit_focus_exited"]
+[connection signal="pressed" from="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop/BaseSettings/DecreaseButton" to="." method="_on_decrease_base_button_pressed"]
+[connection signal="focus_exited" from="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop/BaseSettings/BaseValue" to="." method="_on_base_value_edit_focus_exited"]
+[connection signal="pressed" from="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop/BaseSettings/IncreaseButton" to="." method="_on_increase_base_button_pressed"]
+[connection signal="pressed" from="RightSide/FontInfo/Scroll/Margin/Items/Export/ExportButton" to="." method="_on_export_button_pressed"]
+[connection signal="pressed" from="RightSide/FontInfo/Scroll/Margin/Items/Export/ExportAsXMLButton" to="." method="_on_export_as_xml_button_pressed"]
+[connection signal="file_selected" from="OpenFile" to="." method="_on_file_selected"]

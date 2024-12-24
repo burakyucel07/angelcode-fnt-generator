@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://c7ei7qoakyrl"]
+[gd_scene load_steps=5 format=3 uid="uid://c7ei7qoakyrl"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1"]
-[ext_resource type="PackedScene" path="res://components/main_camera/main_camera.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://du4stbhogas0i" path="res://components/main_camera/main_camera.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://ym16p8538k5m" path="res://components/font_image/font_image.tscn" id="3"]
-[ext_resource type="Texture2D" uid="uid://c5wea834mrek5" path="res://system/black_brush.png" id="3_66k1p"]
 [ext_resource type="PackedScene" uid="uid://rcj2mnv6rwrf" path="res://components/user_interface/user_interface.tscn" id="4"]
 
 [node name="Main" type="Node2D"]
@@ -11,7 +10,6 @@ script = ExtResource("1")
 
 [node name="FontImage" parent="." instance=ExtResource("3")]
 position = Vector2(378, 243)
-texture = ExtResource("3_66k1p")
 
 [node name="MainCamera" parent="FontImage" instance=ExtResource("2")]
 offset = Vector2(900, 0)
@@ -23,3 +21,10 @@ limit_bottom = 0
 [node name="Controls" type="CanvasLayer" parent="."]
 
 [node name="UserInterface" parent="Controls" instance=ExtResource("4")]
+unique_name_in_owner = true
+
+[connection signal="export_as_xml_button_pressed" from="Controls/UserInterface" to="." method="_on_export_as_xml_button_pressed"]
+[connection signal="export_button_pressed" from="Controls/UserInterface" to="." method="_on_export_button_pressed"]
+[connection signal="file_selected" from="Controls/UserInterface" to="." method="_on_file_selected"]
+[connection signal="form_field_updated" from="Controls/UserInterface" to="." method="_on_form_field_updated"]
+[connection signal="selected_char_index_changed" from="Controls/UserInterface" to="." method="_on_selected_char_index_changed"]

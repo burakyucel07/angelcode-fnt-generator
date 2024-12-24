@@ -117,16 +117,16 @@ func set_wireframe(options: Dictionary) -> void:
 	if options.has("char_width") and int(options["char_width"]) != char_dimensions.x:
 		char_dimensions.x = options.char_width
 		char_counts.x = get_horizontal_char_count()
-		#update()
+		queue_redraw()
 	
 	if options.has("char_height") and int(options["char_height"]) != char_dimensions.y:
 		char_dimensions.y = options.char_height
 		char_counts.y = get_vertical_char_count()
-		#update()
+		queue_redraw()
 		
 	if options.has("base_from_top") and int(options["base_from_top"]) != base_offset:
 		base_offset = options.base_from_top
-		#update()
+		queue_redraw()
 
 
 func set_image(tex: Texture) -> void:

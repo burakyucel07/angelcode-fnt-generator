@@ -1,7 +1,6 @@
-[gd_scene format=2]
+[gd_scene format=3 uid="uid://du4stbhogas0i"]
 
 [node name="MainCamera" type="Camera2D"]
-current = true
 limit_left = 5000
 limit_top = 5000
 limit_right = 5000
