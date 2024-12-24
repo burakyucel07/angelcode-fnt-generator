@@ -20,63 +20,31 @@ var current_char_index: int = 0
 
 var texture_file_extension: String = ""
 
-@onready var open_file_dialog = $"TextureInfoControl/OpenFile"
+@onready var open_file_dialog = %OpenFile
 
-@onready var current_char_rect = $"LetterControl/Items/Panel/Controls/Texture/Panel/Char"
-@onready var current_char_advance = $"LetterControl/Items/Panel/Controls/Texture/Panel/Advance"
-@onready var decrease_advance_button = $"LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Buttons/Decrease"
-@onready var increase_advance_button = $"LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Buttons/Increase"
-@onready var current_advance_edit = $"LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Edit/CurrentAdvance"
-@onready var advance_limit_label = $"LetterControl/Items/Panel/Controls/AdvanceControls/Centering/Items/Edit/AdvanceLimit"
-@onready var prev_char_button = $"LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls/PrevChar"
-@onready var next_char_button = $"LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls/NextChar"
-@onready var current_char_edit = $"LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls/CurrentChar"
-@onready var char_count_label = $"LetterControl/Items/Panel/Controls/LetterSwitch/Centering/Controls/CharCount"
+@onready var current_char_rect = %SelectedChar
+@onready var current_char_advance = %CurrentAdvance
+@onready var current_advance_edit = %CurrentAdvanceEdit
+@onready var advance_limit_label = %AdvanceLimit
+@onready var current_char_edit = %CurrentChar
+@onready var char_count_label = %CharCount
 
-@onready var image_load_button = $"TextureInfoControl/Panel/Margin/Scroll/Items/ImageLoad"
-@onready var font_name_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/FontNameEdit"
-@onready var texture_name_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/TextureNameEdit"
-@onready var char_width_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions/CharacterWidthEdit"
-@onready var char_height_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/CharacterDimensions/CharacterHeightEdit"
-@onready var decrease_base_button = $"TextureInfoControl/Panel/Margin/Scroll/Items/BaseSettings/DecreaseButton"
-@onready var increase_base_button = $"TextureInfoControl/Panel/Margin/Scroll/Items/BaseSettings/IncreaseButton"
-@onready var base_value_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/BaseSettings/BaseValue"
-@onready var char_list_edit = $"TextureInfoControl/Panel/Margin/Scroll/Items/CharacterListEdit"
-@onready var export_button = $"TextureInfoControl/Panel/Margin/Scroll/Items/ExportButton"
-@onready var export_as_xml_button = $"TextureInfoControl/Panel/Margin/Scroll/Items/ExportAsXMLButton"
+@onready var font_name_edit = %FontNameEdit
+@onready var texture_name_edit = %TextureNameEdit
+@onready var char_width_edit = %CharWidthEdit
+@onready var char_height_edit = %CharHeightEdit
+@onready var base_value_edit = %BaseValue
+@onready var char_list_edit = %CharListEdit
 
-@onready var info_dialog = $"InfoDialog"
-@onready var overwrite_dialog = $"FntOverwriteConfirmation"
+@onready var info_dialog = %InfoDialog
+@onready var overwrite_dialog = %OverwriteConfirmation
+
+@onready var advance_panel = %AdvancePanel
+@onready var font_info_panel = %FontInfo
+
 
 func _ready() -> void:
-	open_file_dialog.connect("file_selected", _on_file_selected)
-	
-	image_load_button.connect("pressed", _on_image_load_button_pressed)
-	char_width_edit.connect("focus_exited", _on_char_width_edit_focus_exited)
-	char_height_edit.connect("focus_exited", _on_char_height_edit_focus_exited)
-	
-	current_advance_edit.connect("focus_exited", _on_char_advance_edit_focus_exited)
-	current_char_edit.connect("focus_exited", _on_current_char_edit_focus_exited)
-	
-	decrease_base_button.connect("pressed", _on_decrease_base_button_pressed)
-	increase_base_button.connect("pressed", _on_increase_base_button_pressed)
-	base_value_edit.connect("focus_exited", _on_base_value_edit_focus_exited)
-	export_button.connect("pressed", _on_export_button_pressed)
-	export_as_xml_button.connect("pressed", _on_export_as_xml_button_pressed)
-	
-	decrease_advance_button.connect("pressed", _on_decrease_advance_button_pressed)
-	increase_advance_button.connect("pressed", _on_increase_advance_button_pressed)
-	#current_advance_edit.connect("text_changed", _on_current_advance_edit_text_changed)
-	prev_char_button.connect("pressed", _on_prev_char_button_pressed)
-	next_char_button.connect("pressed", _on_next_char_button_pressed)
-	#current_char_edit.connect("text_changed", _on_current_char_edit_text_changed)
-	
-	#texture_name_edit.connect("focus_exited", _on_texture_name_edit_focus_exited)
-	
-	
 	_unlock_edit_buttons(false)
-	
-	texture_name_edit.editable = false
 	
 	current_char_atlas = AtlasTexture.new()
 	
@@ -118,21 +86,8 @@ func open_dialog(message: String) -> void:
 
 
 func _unlock_edit_buttons(value: bool) -> void:
-	char_width_edit.editable = value
-	char_height_edit.editable = value
-	decrease_base_button.disabled = !value
-	increase_base_button.disabled = !value
-	decrease_advance_button.disabled = !value
-	increase_advance_button.disabled = !value
-	base_value_edit.editable = value
-	export_button.disabled = !value
-	current_advance_edit.editable = value
-	prev_char_button.disabled = !value
-	next_char_button.disabled = !value
-	current_char_edit.editable = value
-	font_name_edit.editable = value
-	char_list_edit.editable = value
-	export_button.disabled = !value
+	advance_panel.visible = value
+	font_info_panel.visible = value
 
 
 func _on_file_selected(file_path: String) -> void:
@@ -171,7 +126,7 @@ func _on_file_selected(file_path: String) -> void:
 			
 		_unlock_edit_buttons(true)
 		
-		emit_signal("file_selected", texture_info)
+		file_selected.emit(texture_info)
 	else:
 		open_dialog(tr("FILE_IS_NOT_TEXTURE"))
 
@@ -208,7 +163,7 @@ func _on_char_advance_edit_focus_exited() -> void:
 	
 	_update_current_visible_char()
 	
-	emit_signal("form_field_updated", {
+	form_field_updated.emit({
 		"current_char_advance": advance_infos[current_char_index],
 	})
 
@@ -219,7 +174,7 @@ func _on_current_char_edit_focus_exited() -> void:
 	
 	_update_current_visible_char()
 	
-	emit_signal("selected_char_index_changed", current_char_index, advance_infos[current_char_index])
+	selected_char_index_changed.emit(current_char_index, advance_infos[current_char_index])
 
 
 func _on_char_width_edit_focus_exited() -> void:
@@ -238,7 +193,7 @@ func _on_char_width_edit_focus_exited() -> void:
 		
 	_update_current_visible_char()
 	
-	emit_signal("form_field_updated", {
+	form_field_updated.emit({
 		"char_width": char_width,
 	})
 
@@ -254,19 +209,19 @@ func _on_char_height_edit_focus_exited() -> void:
 	
 	_update_current_visible_char()
 	
-	emit_signal("form_field_updated", {
+	form_field_updated.emit({
 		"char_height": char_height,
 	})
 
 
 func _on_decrease_base_button_pressed() -> void:
 	base_value_edit.text = str(max(0, int(base_value_edit.text) - 1))
-	emit_signal("form_field_updated", {"base_from_top": int(base_value_edit.text)})
+	form_field_updated.emit({"base_from_top": int(base_value_edit.text)})
 
 
 func _on_increase_base_button_pressed() -> void:
 	base_value_edit.text = str(min(int(base_value_edit.text) + 1, int(char_height_edit.text)))
-	emit_signal("form_field_updated", {"base_from_top": int(base_value_edit.text)})
+	form_field_updated.emit({"base_from_top": int(base_value_edit.text)})
 
 
 func _on_increase_advance_button_pressed() -> void:
@@ -277,7 +232,7 @@ func _on_increase_advance_button_pressed() -> void:
 		
 	_update_current_visible_char()
 	
-	emit_signal("form_field_updated", {
+	form_field_updated.emit({
 		"current_char_advance": advance_infos[current_char_index],
 	})
 
@@ -290,7 +245,7 @@ func _on_decrease_advance_button_pressed() -> void:
 	
 	_update_current_visible_char()
 	
-	emit_signal("form_field_updated", {
+	form_field_updated.emit({
 		"current_char_advance": advance_infos[current_char_index],
 	})
 
@@ -298,7 +253,7 @@ func _on_decrease_advance_button_pressed() -> void:
 func _on_prev_char_button_pressed() -> void:
 	current_char_index = max(0, current_char_index - 1)
 	current_char_index = min((char_counts.x * char_counts.y) - 1, current_char_index)
-	emit_signal("selected_char_index_changed", current_char_index, advance_infos[current_char_index])
+	selected_char_index_changed.emit(current_char_index, advance_infos[current_char_index])
 	
 	current_char_edit.text = str(current_char_index)
 	
@@ -307,7 +262,7 @@ func _on_prev_char_button_pressed() -> void:
 
 func _on_next_char_button_pressed() -> void:
 	current_char_index = min((char_counts.x * char_counts.y) - 1, current_char_index + 1)
-	emit_signal("selected_char_index_changed", current_char_index, advance_infos[current_char_index])
+	selected_char_index_changed.emit(current_char_index, advance_infos[current_char_index])
 	
 	current_char_edit.text = str(current_char_index)
 	
@@ -321,7 +276,7 @@ func _on_base_value_edit_focus_exited() -> void:
 	
 	base_value_edit.text = str(parsed_value)
 	
-	emit_signal("form_field_updated", {"base_from_top": parsed_value})
+	form_field_updated.emit({"base_from_top": parsed_value})
 
 
 func _get_export_values():
@@ -340,10 +295,10 @@ func _get_export_values():
 func _on_export_button_pressed() -> void:
 	var export_values = _get_export_values()
 	
-	emit_signal("export_button_pressed", export_values)
+	export_button_pressed.emit(export_values)
 
 
 func _on_export_as_xml_button_pressed() -> void:
 	var export_values = _get_export_values()
 	
-	emit_signal("export_as_xml_button_pressed", export_values)
+	export_as_xml_button_pressed.emit(export_values)

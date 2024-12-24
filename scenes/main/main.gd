@@ -15,12 +15,12 @@ var fnt_file = null
 var current_export_type = ExportType.TEXT
 
 func _ready():
-	user_interface.connect("file_selected", _on_file_selected)
-	user_interface.connect("form_field_updated", _on_form_field_updated)
-	user_interface.connect("selected_char_index_changed", _on_selected_char_index_changed)
-	user_interface.connect("export_button_pressed", _on_export_button_pressed)
-	user_interface.connect("export_as_xml_button_pressed", _on_export_as_xml_button_pressed)
-	user_interface.overwrite_dialog.get_ok_button().connect("pressed", _on_overwrite_confirm_pressed)
+	user_interface.file_selected.connect(_on_file_selected)
+	user_interface.form_field_updated.connect(_on_form_field_updated)
+	user_interface.selected_char_index_changed.connect(_on_selected_char_index_changed)
+	user_interface.export_button_pressed.connect(_on_export_button_pressed)
+	user_interface.export_as_xml_button_pressed.connect(_on_export_as_xml_button_pressed)
+	user_interface.overwrite_dialog.get_ok_button().pressed.connect(_on_overwrite_confirm_pressed)
 
 
 func _on_overwrite_confirm_pressed():

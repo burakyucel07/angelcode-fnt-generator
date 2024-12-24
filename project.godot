@@ -23,6 +23,10 @@ config/icon="res://system/icon.png"
 window/size/width=900
 window/size/height=640
 
+[gui]
+
+theme/custom="res://system/default_theme.tres"
+
 [internationalization]
 
 locale/translations=PackedStringArray("res://translations/system.en.translation")
