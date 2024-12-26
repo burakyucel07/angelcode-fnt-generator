@@ -27,7 +27,7 @@ func set_current_letter(index: int) -> void:
 	letter_indices.x = index % int(char_counts.x)
 	letter_indices.y = floor(index / char_counts.x)
 	
-	#update()
+	queue_redraw()
 
 
 func _input(event: InputEvent) -> void:
@@ -74,7 +74,7 @@ func _draw_letter_selection():
 
 
 func _draw_base_line():
-	for i in range(char_counts.y + 1):
+	for i in range(char_counts.y):
 		if i == char_counts.y + 1:
 			return
 		
@@ -107,7 +107,7 @@ func _draw_letter_separators():
 func set_current_char_advance(value: int) -> void:
 	current_char_advance = value
 	
-	#update()
+	queue_redraw()
 
 
 func set_wireframe(options: Dictionary) -> void:
@@ -142,7 +142,8 @@ func set_image(tex: Texture) -> void:
 	
 	is_texture_set = true
 	
-	#update()
+	# TODO: Is this required? Unsure what this is meant to do.
+	#queue_redraw()
 
 
 func set_char_width(value: int) -> void:
