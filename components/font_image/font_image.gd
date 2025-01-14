@@ -1,9 +1,10 @@
-extends Sprite2D
+extends TextureRect
 
 
 const CHAR_SEPARATOR_COLOR: Color = Color(0, 1.0, 0, 0.5)
 const CHAR_BASE_COLOR: Color = Color(1.0, 0, 0, 0.5)
-const LETTER_SELECTION_COLOR: Color = Color(1.0, 1.0, 1.0, 0.5)
+const LETTER_BOX_COLOR := Color(1.0, 1.0, 1.0, 0.25)
+const LETTER_SELECTION_COLOR := Color(1.0, 1.0, 1.0, 0.5)
 
 const MIN_ZOOM_AMOUNT: int = 1
 const MAX_ZOOM_AMOUNT: int = 20
@@ -17,10 +18,12 @@ var base_offset = 0
 var is_mouse_pressed: bool = false
 
 var char_counts: Vector2 = Vector2(1, 1)
-var letter_indices: Vector2 = Vector2(0, 0)
+var letter_indices := Vector2i(0, 0)
 var char_dimensions: Vector2 = Vector2(1, 1)
 
 var current_char_advance: int = 0
+
+@onready var camera = $"../MainCamera"
 
 
 func set_current_letter(index: int) -> void:
@@ -30,7 +33,7 @@ func set_current_letter(index: int) -> void:
 	queue_redraw()
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	_handle_image_controls(event)
 
 
@@ -52,7 +55,7 @@ func _handle_image_controls(event: InputEvent):
 					is_mouse_pressed = event.pressed
 	
 	if event is InputEventMouseMotion and is_mouse_pressed:
-		position += event.relative
+		camera.position -= event.relative
 
 
 func _draw() -> void:
@@ -64,13 +67,27 @@ func _draw() -> void:
 	_draw_base_line()
 
 
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			letter_indices.x = event.position.x / char_dimensions.x
+			letter_indices.y = event.position.y / char_dimensions.y
+			get_parent().user_interface.set_current_char_index(letter_indices.y * char_counts.x + letter_indices.x)
+			queue_redraw()
+
+
 func _draw_letter_selection():
-	draw_rect(Rect2(
-		draw_from.x + (char_dimensions.x * letter_indices.x),
-		draw_from.y + (char_dimensions.y * letter_indices.y),
-		current_char_advance,
-		char_dimensions.y
-	), LETTER_SELECTION_COLOR)
+	for j in range(char_counts.y):
+		for i in range(char_counts.x):
+			var color = LETTER_BOX_COLOR
+			if letter_indices == Vector2i(i, j):
+				color = LETTER_SELECTION_COLOR
+			draw_rect(Rect2(
+				draw_from.x + (char_dimensions.x * i),
+				draw_from.y + (char_dimensions.y * j),
+				get_parent().user_interface.advance_infos[i + j * char_counts.x],
+				char_dimensions.y
+			), color)
 
 
 func _draw_base_line():
@@ -84,7 +101,7 @@ func _draw_base_line():
 				draw_from.x + texture_dimensions.x,
 				draw_from.y + (char_dimensions.y * i) + base_offset
 			),
-			CHAR_BASE_COLOR
+			CHAR_BASE_COLOR,
 		)
 
 
@@ -134,8 +151,7 @@ func set_image(tex: Texture) -> void:
 	
 	texture_dimensions = texture.get_size()
 	
-	draw_from.x = -(texture_dimensions.x / 2)
-	draw_from.y = -(texture_dimensions.y / 2)
+	pivot_offset = texture_dimensions / 2
 	
 	char_counts.x = get_horizontal_char_count()
 	char_counts.y = get_vertical_char_count()

@@ -1,7 +1,3 @@
 [gd_scene format=3 uid="uid://du4stbhogas0i"]
 
 [node name="MainCamera" type="Camera2D"]
-limit_left = 5000
-limit_top = 5000
-limit_right = 5000
-limit_bottom = 5000
