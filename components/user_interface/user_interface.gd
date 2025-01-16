@@ -251,21 +251,18 @@ func _on_decrease_advance_button_pressed() -> void:
 
 
 func _on_prev_char_button_pressed() -> void:
-	current_char_index = max(0, current_char_index - 1)
-	current_char_index = min((char_counts.x * char_counts.y) - 1, current_char_index)
-	selected_char_index_changed.emit(current_char_index, advance_infos[current_char_index])
-	
-	current_char_edit.text = str(current_char_index)
-	
-	_update_current_visible_char()
+	set_current_char_index(current_char_index - 1)
 
 
 func _on_next_char_button_pressed() -> void:
-	current_char_index = min((char_counts.x * char_counts.y) - 1, current_char_index + 1)
+	set_current_char_index(current_char_index + 1)
+
+
+## Set the selected character index
+func set_current_char_index(index: int) -> void:
+	current_char_index = clamp(index, 0, (char_counts.x * char_counts.y) - 1)
 	selected_char_index_changed.emit(current_char_index, advance_infos[current_char_index])
-	
 	current_char_edit.text = str(current_char_index)
-	
 	_update_current_visible_char()
 
 

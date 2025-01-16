@@ -2,6 +2,6 @@
 
 [ext_resource type="Script" path="res://components/font_image/font_image.gd" id="2"]
 
-[node name="FontImage" type="Sprite2D"]
+[node name="FontImage" type="TextureRect"]
 texture_filter = 1
 script = ExtResource("2")

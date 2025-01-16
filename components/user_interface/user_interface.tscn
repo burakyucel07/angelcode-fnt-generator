@@ -146,6 +146,7 @@ text = ">"
 [node name="SpaceFill" type="MarginContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="RightSide" type="VBoxContainer" parent="."]
 layout_mode = 2
