@@ -44,20 +44,18 @@ var char_data_keys = [
 ]
 
 
-func add_char(character: String, x, y, width, height, x_advance):
-	var raw_code = character.to_wchar_buffer().hex_encode()
-	var char_id = "0x" + raw_code.substr(2, 2) + raw_code.substr(0, 2)
-	char_id = char_id.hex_to_int()
+func add_char(character: String, pos: Vector2i, size: Vector2i, offset: Vector2i, x_advance: int):
+	var char_id = character.unicode_at(0)
 	
 	file_structure.chars.push_back({
 		"id": int(char_id),
-		"x": int(x),
-		"y": int(y),
-		"width": int(min(width, x_advance)),
-		"height": int(height),
-		"xoffset": 0,
-		"yoffset": 0,
-		"xadvance": int(min(width, x_advance)),
+		"x": pos.x,
+		"y": pos.y,
+		"width": size.x,
+		"height": size.y,
+		"xoffset": offset.x,
+		"yoffset": offset.y,
+		"xadvance": x_advance,
 		"page": 0,
 		"chnl": 15,
 	})
@@ -72,13 +70,16 @@ func add_values(values):
 	file_structure.common.scaleH = values.texture_dimensions.y
 	file_structure.pages[0].file = values.texture_name + "." + values.file_extension
 	
-	var char_count: int =  values.char_list.length()
+	var char_count: int = values.char_list.length()
 	var h_char_count: int = int(values.texture_dimensions.x) / int(values.char_dimensions.x)
 	for i in range(char_count):
 		add_char(values.char_list[i],
-				(i % h_char_count) * values.char_dimensions.x,
-				(i / h_char_count) * values.char_dimensions.y,
-				values.char_dimensions.x, values.char_dimensions.y,
+				Vector2i(
+					(i % h_char_count) * values.char_dimensions.x,
+					(i / h_char_count) * values.char_dimensions.y
+				),
+				values.char_dimensions,
+				values.char_offsets[i],
 				values.advance_infos[i])
 
 
@@ -128,7 +129,7 @@ func export_as_text_to(directory, tex_name) -> bool:
 	
 	var file = FileAccess.open(directory + "/" + tex_name.split(".")[0] + ".fnt", FileAccess.WRITE)
 	if file == null:
-		print(file.get_open_error())
+		print(FileAccess.get_open_error())
 		return false
 
 	file.store_string(fnt_data)
@@ -189,7 +190,7 @@ func export_as_xml_to(directory, tex_name) -> bool:
 	
 	var file = FileAccess.open(directory + "/" + tex_name.split(".")[0] + ".fnt", FileAccess.WRITE)
 	if file == null:
-		print(file.get_open_error())
+		print(FileAccess.get_open_error())
 		return false
 
 	file.store_string(fnt_data)

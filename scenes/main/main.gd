@@ -59,25 +59,17 @@ func _on_file_selected(tex_info: Dictionary) -> void:
 	
 	export_directory = tex_info.texture_directory
 	
-	user_interface.set_char_width(texture_size.x / 2)
-	user_interface.set_char_height(texture_size.y / 2)
+	user_interface.set_char_dimensions(texture_size / 2)
 	
-	font_image.set_wireframe({
-		"char_width": texture_size.x / 2,
-		"char_height": texture_size.y / 2,
-	})
+	font_image.update_wireframe()
 
 
-func _on_form_field_updated(new_values):
-	if new_values.has("current_char_advance"):
-		font_image.set_current_char_advance(new_values.current_char_advance)
-		
-	font_image.set_wireframe(new_values)
+func _on_form_field_updated():
+	font_image.update_wireframe()
 
 
-func _on_selected_char_index_changed(new_index, char_advance):
+func _on_selected_char_index_changed(new_index):
 	font_image.set_current_letter(new_index)
-	font_image.set_current_char_advance(char_advance)
 
 
 func _on_export_button_pressed(export_values):
