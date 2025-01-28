@@ -3,10 +3,10 @@ extends HBoxContainer
 
 
 signal form_field_updated()
-signal export_button_pressed()
+signal export_button_pressed(new_values: Dictionary)
 signal export_as_xml_button_pressed()
-signal selected_char_index_changed(new_index)
-signal file_selected(texture_info)
+signal selected_char_index_changed(new_index: int)
+signal file_selected(texture_info: Dictionary)
 
 const MAX_CHAR_RESOLUTION: int = 256
 const MIN_CHAR_RESOLUTION: int = 8
@@ -219,7 +219,7 @@ func _on_base_edit_value_changed(value: float) -> void:
 	form_field_updated.emit()
 
 
-func _get_export_values():
+func _get_export_values() -> Dictionary:
 	return {
 		"font_name": font_name_edit.text,
 		"texture_name": texture_name_edit.text,
@@ -234,7 +234,7 @@ func _get_export_values():
 
 
 func _on_export_button_pressed() -> void:
-	var export_values = _get_export_values()
+	var export_values: Dictionary = _get_export_values()
 	
 	export_button_pressed.emit(export_values)
 

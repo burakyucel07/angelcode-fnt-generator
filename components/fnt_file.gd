@@ -61,7 +61,7 @@ func add_char(character: String, pos: Vector2i, size: Vector2i, offset: Vector2i
 	})
 
 
-func add_values(values):
+func add_values(values: Dictionary) -> void:
 	file_structure.info.face = values.font_name
 	file_structure.info.size = values.char_dimensions.y
 	file_structure.common.lineHeight = values.char_dimensions.y

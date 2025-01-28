@@ -25,8 +25,9 @@ var letter_indices := Vector2i(0, 0)
 
 
 func set_current_letter(index: int) -> void:
-	letter_indices.x = index % int(user_interface.char_counts.x)
-	letter_indices.y = floor(index / user_interface.char_counts.x)
+	var chars_x: int = user_interface.char_counts.x
+	letter_indices.x = index % chars_x
+	letter_indices.y = index / chars_x
 	
 	queue_redraw()
 
@@ -66,29 +67,33 @@ func _draw() -> void:
 
 
 func _gui_input(event: InputEvent) -> void:
+	var char_dimensions = user_interface.char_dimensions
+	var char_counts = user_interface.char_counts
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			letter_indices.x = event.position.x / user_interface.char_dimensions.x
-			letter_indices.y = event.position.y / user_interface.char_dimensions.y
-			user_interface.set_current_char_index(letter_indices.y * user_interface.char_counts.x + letter_indices.x)
+			letter_indices.x = event.position.x / char_dimensions.x
+			letter_indices.y = event.position.y / char_dimensions.y
+			user_interface.set_current_char_index(letter_indices.y * char_counts.x + letter_indices.x)
 			queue_redraw()
 
 
 func _draw_letter_selection():
 	var char_dimensions = user_interface.char_dimensions
-	for j in range(user_interface.char_counts.y):
-		for i in range(user_interface.char_counts.x):
-			var index = i + j * user_interface.char_counts.x
+	var char_counts = user_interface.char_counts
+	var char_offsets = user_interface.char_offsets
+	for j in range(char_counts.y):
+		for i in range(char_counts.x):
+			var index = i + j * char_counts.x
 			var color = LETTER_BOX_COLOR
 			if letter_indices == Vector2i(i, j):
 				color = LETTER_SELECTION_COLOR
 			var top_left := Vector2i(
-				user_interface.char_dimensions.x * i,
-				user_interface.char_dimensions.y * j
+				char_dimensions.x * i,
+				char_dimensions.y * j
 			)
 			var selection_size := Vector2i(
 				user_interface.advance_infos[index],
-				user_interface.char_dimensions.y
+				char_dimensions.y
 			)
 			var offset: Vector2i = user_interface.char_offsets[index]
 			draw_rect(
@@ -115,32 +120,39 @@ func _draw_letter_selection():
 
 
 func _draw_base_line():
-	for i in range(user_interface.char_counts.y):
-		if i == user_interface.char_counts.y + 1:
+	var char_counts = user_interface.char_counts
+	var char_dimensions = user_interface.char_dimensions
+	var texture_dimensions = user_interface.texture_dimensions
+	var base_from_top = user_interface.base_from_top
+	for i in range(char_counts.y):
+		if i == char_counts.y + 1:
 			return
 		
 		draw_line(
-			Vector2(0, (user_interface.char_dimensions.y * i) + user_interface.base_from_top),
+			Vector2(0, (char_dimensions.y * i) + base_from_top),
 			Vector2(
-				user_interface.texture_dimensions.x,
-				(user_interface.char_dimensions.y * i) + user_interface.base_from_top
+				texture_dimensions.x,
+				(char_dimensions.y * i) + base_from_top
 			),
 			CHAR_BASE_COLOR,
 		)
 
 
 func _draw_letter_separators():
-	for i in range(user_interface.char_counts.x + 1):
+	var char_counts = user_interface.char_counts
+	var char_dimensions = user_interface.char_dimensions
+	var texture_dimensions = user_interface.texture_dimensions
+	for i in range(char_counts.x + 1):
 		draw_line(
-			Vector2((user_interface.char_dimensions.x * i), 0),
-			Vector2((user_interface.char_dimensions.x * i), user_interface.texture_dimensions.y),
+			Vector2((char_dimensions.x * i), 0),
+			Vector2((char_dimensions.x * i), texture_dimensions.y),
 			CHAR_SEPARATOR_COLOR
 		)
 		
-	for i in range(user_interface.char_counts.y + 1):
+	for i in range(char_counts.y + 1):
 		draw_line(
-			Vector2(0, user_interface.char_dimensions.y * i),
-			Vector2(user_interface.texture_dimensions.x, user_interface.char_dimensions.y * i),
+			Vector2(0, char_dimensions.y * i),
+			Vector2(texture_dimensions.x, char_dimensions.y * i),
 			CHAR_SEPARATOR_COLOR
 		)
 
