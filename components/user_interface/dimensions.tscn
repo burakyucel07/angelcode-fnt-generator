@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3he1bo7l206j"]
+
+[ext_resource type="Script" path="res://components/user_interface/dimensions.gd" id="1_hhfng"]
+
+[node name="Dimensions" type="HBoxContainer"]
+theme_override_constants/separation = 8
+script = ExtResource("1_hhfng")
+
+[node name="X" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="XEdit" type="SpinBox" parent="X"]
+unique_name_in_owner = true
+layout_mode = 2
+rounded = true
+allow_greater = true
+
+[node name="Pixels" type="Label" parent="X"]
+layout_mode = 2
+text = "px"
+
+[node name="Times" type="Label" parent="."]
+layout_mode = 2
+text = "X"
+
+[node name="Y" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="YEdit" type="SpinBox" parent="Y"]
+unique_name_in_owner = true
+layout_mode = 2
+rounded = true
+allow_greater = true
+
+[node name="Pixels" type="Label" parent="Y"]
+layout_mode = 2
+text = "px"
+
+[connection signal="value_changed" from="X/XEdit" to="." method="_on_x_edit_value_changed"]
+[connection signal="value_changed" from="Y/YEdit" to="." method="_on_y_edit_value_changed"]

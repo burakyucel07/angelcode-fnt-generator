@@ -1,22 +1,27 @@
+class_name UserInterface
 extends HBoxContainer
 
 
-signal form_field_updated(new_values)
-signal export_button_pressed()
+signal form_field_updated()
+signal export_button_pressed(new_values: Dictionary)
 signal export_as_xml_button_pressed()
-signal selected_char_index_changed(new_index, char_advance)
-signal file_selected(texture_info)
+signal selected_char_index_changed(new_index: int)
+signal file_selected(texture_info: Dictionary)
 
 const MAX_CHAR_RESOLUTION: int = 256
 const MIN_CHAR_RESOLUTION: int = 8
 const MAX_ADVANCE_INFO_COUNT: int = 1025
 
 var current_char_atlas: AtlasTexture = null
-var texture_dimensions: Vector2 = Vector2(0, 0)
-var char_counts: Vector2 = Vector2(1, 1)
+var texture_dimensions := Vector2i.ZERO
+var char_counts := Vector2i.ONE
+var char_dimensions := Vector2i.ZERO
 
-var advance_infos: Array = []
+var advance_infos: PackedInt32Array = []
+var char_offsets: Array[Vector2i] = []
 var current_char_index: int = 0
+
+var base_from_top := 0
 
 var texture_file_extension: String = ""
 
@@ -25,15 +30,15 @@ var texture_file_extension: String = ""
 @onready var current_char_rect = %SelectedChar
 @onready var current_char_advance = %CurrentAdvance
 @onready var current_advance_edit = %CurrentAdvanceEdit
+@onready var char_dimensions_edit = %CharDimensionsEdit
+@onready var current_offset_edit = %CurrentOffsetEdit
 @onready var advance_limit_label = %AdvanceLimit
 @onready var current_char_edit = %CurrentChar
 @onready var char_count_label = %CharCount
 
 @onready var font_name_edit = %FontNameEdit
 @onready var texture_name_edit = %TextureNameEdit
-@onready var char_width_edit = %CharWidthEdit
-@onready var char_height_edit = %CharHeightEdit
-@onready var base_value_edit = %BaseValue
+@onready var base_edit = %BaseEdit
 @onready var char_list_edit = %CharListEdit
 
 @onready var info_dialog = %InfoDialog
@@ -48,27 +53,17 @@ func _ready() -> void:
 	
 	current_char_atlas = AtlasTexture.new()
 	
-	for i in range(MAX_ADVANCE_INFO_COUNT):
-		advance_infos.push_back(0)
+	advance_infos.resize(MAX_ADVANCE_INFO_COUNT)
+	char_offsets.resize(MAX_ADVANCE_INFO_COUNT)
+	char_offsets.fill(Vector2i.ZERO)
 
 
 func open_overwrite_confirm_dialog():
 	overwrite_dialog.popup_centered()
 
 
-func set_char_width(value: int) -> void:
-	char_width_edit.text = str(value)
-	_on_char_width_edit_focus_exited()
-
-
-func set_char_height(value: int) -> void:
-	char_height_edit.text = str(value)
-	_on_char_height_edit_focus_exited()
-
-
-func set_base_from_top(value: int) -> void:
-	base_value_edit.text = str(value)
-	_on_base_value_edit_focus_exited()
+func set_char_dimensions(value: Vector2i) -> void:
+	char_dimensions_edit.value = value
 
 
 func set_current_char(value: int) -> void:
@@ -132,17 +127,22 @@ func _on_file_selected(file_path: String) -> void:
 
 
 func _update_current_visible_char():
+	var pos = Vector2i(current_char_index % char_counts.x, current_char_index / char_counts.x)
 	current_char_atlas.region = Rect2(
-		(int(current_char_index % int(char_counts.x))) * int(char_width_edit.text),
-		(int(current_char_index / char_counts.x)) * int(char_height_edit.text),
-		int(char_width_edit.text),
-		int(char_height_edit.text)
+		pos * char_dimensions,
+		char_dimensions,
 	)
 	
 	var selected_index = min(current_char_index, advance_infos.size() - 1)
 	
+	current_offset_edit.value = char_offsets[selected_index]
 	current_advance_edit.text = str(advance_infos[selected_index])
 	current_char_edit.text = str(selected_index)
+	
+	current_char_rect.offset_left = char_offsets[selected_index].x
+	current_char_rect.offset_right = char_offsets[selected_index].x
+	current_char_rect.offset_top = char_offsets[selected_index].y
+	current_char_rect.offset_bottom = char_offsets[selected_index].y
 	
 	current_char_rect.custom_minimum_size.x = advance_infos[selected_index]
 	current_char_rect.custom_minimum_size.y = advance_infos[selected_index]
@@ -156,16 +156,14 @@ func _on_image_load_button_pressed() -> void:
 
 
 func _on_char_advance_edit_focus_exited() -> void:
-	var char_advance = min(int(char_width_edit.text), int(current_advance_edit.text))
+	var char_advance = min(char_dimensions.x, int(current_advance_edit.text))
 	char_advance = max(char_advance, 0)
 	
 	advance_infos[current_char_index] = char_advance
 	
 	_update_current_visible_char()
 	
-	form_field_updated.emit({
-		"current_char_advance": advance_infos[current_char_index],
-	})
+	form_field_updated.emit()
 
 
 func _on_current_char_edit_focus_exited() -> void:
@@ -174,67 +172,18 @@ func _on_current_char_edit_focus_exited() -> void:
 	
 	_update_current_visible_char()
 	
-	selected_char_index_changed.emit(current_char_index, advance_infos[current_char_index])
-
-
-func _on_char_width_edit_focus_exited() -> void:
-	var char_width = max(MIN_CHAR_RESOLUTION, int(char_width_edit.text))
-	char_width = min(MAX_CHAR_RESOLUTION, char_width)
-	char_width_edit.text = str(char_width)
-	char_counts.x = max(1, int(texture_dimensions.x / char_width))
-	_update_char_count()
-	current_char_edit.text = str(min(
-			int(current_char_edit.text), int(char_count_label.text)))
-	
-	for i in range(MAX_ADVANCE_INFO_COUNT):
-		advance_infos[i] = min(char_width, advance_infos[i])
-		
-	advance_limit_label.text = str(char_width)
-		
-	_update_current_visible_char()
-	
-	form_field_updated.emit({
-		"char_width": char_width,
-	})
-
-
-func _on_char_height_edit_focus_exited() -> void:
-	var char_height = max(MIN_CHAR_RESOLUTION, int(char_height_edit.text))
-	char_height = min(MAX_CHAR_RESOLUTION, char_height)
-	char_height_edit.text = str(char_height)
-	char_counts.y = max(1, int(texture_dimensions.y / char_height))
-	_update_char_count()
-	current_char_edit.text = str(min(
-			int(current_char_edit.text), int(char_count_label.text)))
-	
-	_update_current_visible_char()
-	
-	form_field_updated.emit({
-		"char_height": char_height,
-	})
-
-
-func _on_decrease_base_button_pressed() -> void:
-	base_value_edit.text = str(max(0, int(base_value_edit.text) - 1))
-	form_field_updated.emit({"base_from_top": int(base_value_edit.text)})
-
-
-func _on_increase_base_button_pressed() -> void:
-	base_value_edit.text = str(min(int(base_value_edit.text) + 1, int(char_height_edit.text)))
-	form_field_updated.emit({"base_from_top": int(base_value_edit.text)})
+	selected_char_index_changed.emit(current_char_index)
 
 
 func _on_increase_advance_button_pressed() -> void:
 	advance_infos[current_char_index] = min(
 			advance_infos[current_char_index] + 1,
-			int(char_width_edit.text)
+			char_dimensions.x
 		)
 		
 	_update_current_visible_char()
 	
-	form_field_updated.emit({
-		"current_char_advance": advance_infos[current_char_index],
-	})
+	form_field_updated.emit()
 
 
 func _on_decrease_advance_button_pressed() -> void:
@@ -245,9 +194,7 @@ func _on_decrease_advance_button_pressed() -> void:
 	
 	_update_current_visible_char()
 	
-	form_field_updated.emit({
-		"current_char_advance": advance_infos[current_char_index],
-	})
+	form_field_updated.emit()
 
 
 func _on_prev_char_button_pressed() -> void:
@@ -261,36 +208,33 @@ func _on_next_char_button_pressed() -> void:
 ## Set the selected character index
 func set_current_char_index(index: int) -> void:
 	current_char_index = clamp(index, 0, (char_counts.x * char_counts.y) - 1)
-	selected_char_index_changed.emit(current_char_index, advance_infos[current_char_index])
+	selected_char_index_changed.emit(current_char_index)
 	current_char_edit.text = str(current_char_index)
 	_update_current_visible_char()
 
 
-func _on_base_value_edit_focus_exited() -> void:
-	var parsed_value = int(base_value_edit.text)
-	parsed_value = max(0, parsed_value)
-	parsed_value = min(int(char_height_edit.text), parsed_value)
+func _on_base_edit_value_changed(value: float) -> void:
+	base_from_top = value
 	
-	base_value_edit.text = str(parsed_value)
-	
-	form_field_updated.emit({"base_from_top": parsed_value})
+	form_field_updated.emit()
 
 
-func _get_export_values():
+func _get_export_values() -> Dictionary:
 	return {
 		"font_name": font_name_edit.text,
 		"texture_name": texture_name_edit.text,
-		"char_dimensions": Vector2(int(char_width_edit.text), int(char_height_edit.text)),
+		"char_dimensions": char_dimensions,
 		"texture_dimensions": texture_dimensions,
-		"base_from_top": int(base_value_edit.text),
+		"base_from_top": base_edit.value,
 		"char_list": char_list_edit.text,
+		"char_offsets": char_offsets.slice(0, char_list_edit.text.length()),
 		"advance_infos": advance_infos.slice(0, char_list_edit.text.length()),
 		"file_extension": texture_file_extension,
 	}
 
 
 func _on_export_button_pressed() -> void:
-	var export_values = _get_export_values()
+	var export_values: Dictionary = _get_export_values()
 	
 	export_button_pressed.emit(export_values)
 
@@ -299,3 +243,28 @@ func _on_export_as_xml_button_pressed() -> void:
 	var export_values = _get_export_values()
 	
 	export_as_xml_button_pressed.emit(export_values)
+
+
+func _on_current_offset_edit_value_changed(value: Vector2i) -> void:
+	char_offsets[current_char_index] = value
+	
+	_update_current_visible_char()
+	
+	form_field_updated.emit()
+
+
+func _on_char_dimensions_edit_value_changed(value: Vector2i) -> void:
+	char_dimensions = value
+	char_counts = texture_dimensions / char_dimensions
+	_update_char_count()
+	current_char_edit.text = str(min(
+			int(current_char_edit.text), int(char_count_label.text)))
+	
+	for i in range(MAX_ADVANCE_INFO_COUNT):
+		advance_infos[i] = min(char_dimensions.x, advance_infos[i])
+	
+	advance_limit_label.text = str(char_dimensions.x)
+	
+	_update_current_visible_char()
+	
+	form_field_updated.emit()

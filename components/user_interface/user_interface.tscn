@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://rcj2mnv6rwrf"]
+[gd_scene load_steps=4 format=3 uid="uid://rcj2mnv6rwrf"]
 
 [ext_resource type="Script" path="res://components/user_interface/user_interface.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://d3he1bo7l206j" path="res://components/user_interface/dimensions.tscn" id="2_gv6df"]
 
 [sub_resource type="AtlasTexture" id="1"]
 
@@ -44,62 +45,76 @@ modulate = Color(1, 1, 1, 0.498039)
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="Items" type="VBoxContainer" parent="AdvancePanel/LetterControl/Controls"]
+[node name="AdvanceControls" type="VBoxContainer" parent="AdvancePanel/LetterControl/Controls"]
 layout_mode = 2
 
-[node name="XAdvance" type="Label" parent="AdvancePanel/LetterControl/Controls/Items"]
+[node name="XAdvanceLabel" type="Label" parent="AdvancePanel/LetterControl/Controls/AdvanceControls"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "X Advance"
 horizontal_alignment = 1
 
-[node name="Edit" type="HBoxContainer" parent="AdvancePanel/LetterControl/Controls/Items"]
+[node name="Edit" type="HBoxContainer" parent="AdvancePanel/LetterControl/Controls/AdvanceControls"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CurrentAdvanceEdit" type="LineEdit" parent="AdvancePanel/LetterControl/Controls/Items/Edit"]
+[node name="CurrentAdvanceEdit" type="LineEdit" parent="AdvancePanel/LetterControl/Controls/AdvanceControls/Edit"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "0"
 
-[node name="Pixels2" type="Label" parent="AdvancePanel/LetterControl/Controls/Items/Edit"]
+[node name="Pixels2" type="Label" parent="AdvancePanel/LetterControl/Controls/AdvanceControls/Edit"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "px"
 horizontal_alignment = 1
 
-[node name="Slash" type="Label" parent="AdvancePanel/LetterControl/Controls/Items/Edit"]
+[node name="Slash" type="Label" parent="AdvancePanel/LetterControl/Controls/AdvanceControls/Edit"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "/"
 horizontal_alignment = 1
 
-[node name="AdvanceLimit" type="Label" parent="AdvancePanel/LetterControl/Controls/Items/Edit"]
+[node name="AdvanceLimit" type="Label" parent="AdvancePanel/LetterControl/Controls/AdvanceControls/Edit"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "10"
 horizontal_alignment = 1
 
-[node name="Pixels" type="Label" parent="AdvancePanel/LetterControl/Controls/Items/Edit"]
+[node name="Pixels" type="Label" parent="AdvancePanel/LetterControl/Controls/AdvanceControls/Edit"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "px"
 horizontal_alignment = 1
 
-[node name="Buttons" type="HBoxContainer" parent="AdvancePanel/LetterControl/Controls/Items"]
+[node name="Buttons" type="HBoxContainer" parent="AdvancePanel/LetterControl/Controls/AdvanceControls"]
 layout_mode = 2
 
-[node name="Decrease" type="Button" parent="AdvancePanel/LetterControl/Controls/Items/Buttons"]
+[node name="Decrease" type="Button" parent="AdvancePanel/LetterControl/Controls/AdvanceControls/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "<"
 
-[node name="Increase" type="Button" parent="AdvancePanel/LetterControl/Controls/Items/Buttons"]
+[node name="Increase" type="Button" parent="AdvancePanel/LetterControl/Controls/AdvanceControls/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = ">"
+
+[node name="OffsetControls" type="VBoxContainer" parent="AdvancePanel/LetterControl/Controls"]
+layout_mode = 2
+
+[node name="OffsetLabel" type="Label" parent="AdvancePanel/LetterControl/Controls/OffsetControls"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Offset"
+horizontal_alignment = 1
+
+[node name="CurrentOffsetEdit" parent="AdvancePanel/LetterControl/Controls/OffsetControls" instance=ExtResource("2_gv6df")]
+unique_name_in_owner = true
+layout_mode = 2
+allow_negative = true
 
 [node name="Index" type="Label" parent="AdvancePanel/LetterControl/Controls"]
 layout_mode = 2
@@ -224,37 +239,9 @@ layout_mode = 2
 layout_mode = 2
 text = "CHAR_DIMENSIONS"
 
-[node name="CharDimensions" type="HBoxContainer" parent="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="X" type="HBoxContainer" parent="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensions"]
-layout_mode = 2
-
-[node name="CharWidthEdit" type="LineEdit" parent="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensions/X"]
+[node name="CharDimensionsEdit" parent="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions" instance=ExtResource("2_gv6df")]
 unique_name_in_owner = true
 layout_mode = 2
-text = "1"
-
-[node name="Pixels" type="Label" parent="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensions/X"]
-layout_mode = 2
-text = "px"
-
-[node name="Times" type="Label" parent="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensions"]
-layout_mode = 2
-text = "X"
-
-[node name="Y" type="HBoxContainer" parent="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensions"]
-layout_mode = 2
-
-[node name="CharHeightEdit" type="LineEdit" parent="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensions/Y"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "1"
-
-[node name="Pixels" type="Label" parent="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensions/Y"]
-layout_mode = 2
-text = "px"
 
 [node name="BaseFromTop" type="VBoxContainer" parent="RightSide/FontInfo/Scroll/Margin/Items"]
 layout_mode = 2
@@ -266,22 +253,15 @@ text = "BASE_FROM_TOP"
 [node name="BaseSettings" type="HBoxContainer" parent="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop"]
 layout_mode = 2
 
-[node name="DecreaseButton" type="Button" parent="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop/BaseSettings"]
-layout_mode = 2
-text = "<"
-
-[node name="BaseValue" type="LineEdit" parent="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop/BaseSettings"]
+[node name="BaseEdit" type="SpinBox" parent="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop/BaseSettings"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "0"
+rounded = true
+allow_greater = true
 
-[node name="Pixels3" type="Label" parent="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop/BaseSettings"]
+[node name="Pixels" type="Label" parent="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop/BaseSettings"]
 layout_mode = 2
 text = "px"
-
-[node name="IncreaseButton" type="Button" parent="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop/BaseSettings"]
-layout_mode = 2
-text = ">"
 
 [node name="CharList" type="VBoxContainer" parent="RightSide/FontInfo/Scroll/Margin/Items"]
 layout_mode = 2
@@ -322,18 +302,16 @@ dialog_text = "Dialog message."
 unique_name_in_owner = true
 dialog_text = "FILE_EXISTS"
 
-[connection signal="focus_exited" from="AdvancePanel/LetterControl/Controls/Items/Edit/CurrentAdvanceEdit" to="." method="_on_char_advance_edit_focus_exited"]
-[connection signal="pressed" from="AdvancePanel/LetterControl/Controls/Items/Buttons/Decrease" to="." method="_on_decrease_advance_button_pressed"]
-[connection signal="pressed" from="AdvancePanel/LetterControl/Controls/Items/Buttons/Increase" to="." method="_on_increase_advance_button_pressed"]
+[connection signal="focus_exited" from="AdvancePanel/LetterControl/Controls/AdvanceControls/Edit/CurrentAdvanceEdit" to="." method="_on_char_advance_edit_focus_exited"]
+[connection signal="pressed" from="AdvancePanel/LetterControl/Controls/AdvanceControls/Buttons/Decrease" to="." method="_on_decrease_advance_button_pressed"]
+[connection signal="pressed" from="AdvancePanel/LetterControl/Controls/AdvanceControls/Buttons/Increase" to="." method="_on_increase_advance_button_pressed"]
+[connection signal="value_changed" from="AdvancePanel/LetterControl/Controls/OffsetControls/CurrentOffsetEdit" to="." method="_on_current_offset_edit_value_changed"]
 [connection signal="pressed" from="AdvancePanel/LetterControl/Controls/LetterSwitch/Centering/Controls/PrevChar" to="." method="_on_prev_char_button_pressed"]
 [connection signal="focus_exited" from="AdvancePanel/LetterControl/Controls/LetterSwitch/Centering/Controls/CurrentChar" to="." method="_on_current_char_edit_focus_exited"]
 [connection signal="pressed" from="AdvancePanel/LetterControl/Controls/LetterSwitch/Centering/Controls/NextChar" to="." method="_on_next_char_button_pressed"]
 [connection signal="pressed" from="RightSide/TextureInfo/Margin/Items/Title/ImageLoad" to="." method="_on_image_load_button_pressed"]
-[connection signal="focus_exited" from="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensions/X/CharWidthEdit" to="." method="_on_char_width_edit_focus_exited"]
-[connection signal="focus_exited" from="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensions/Y/CharHeightEdit" to="." method="_on_char_height_edit_focus_exited"]
-[connection signal="pressed" from="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop/BaseSettings/DecreaseButton" to="." method="_on_decrease_base_button_pressed"]
-[connection signal="focus_exited" from="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop/BaseSettings/BaseValue" to="." method="_on_base_value_edit_focus_exited"]
-[connection signal="pressed" from="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop/BaseSettings/IncreaseButton" to="." method="_on_increase_base_button_pressed"]
+[connection signal="value_changed" from="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensionsEdit" to="." method="_on_char_dimensions_edit_value_changed"]
+[connection signal="value_changed" from="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop/BaseSettings/BaseEdit" to="." method="_on_base_edit_value_changed"]
 [connection signal="pressed" from="RightSide/FontInfo/Scroll/Margin/Items/Export/ExportButton" to="." method="_on_export_button_pressed"]
 [connection signal="pressed" from="RightSide/FontInfo/Scroll/Margin/Items/Export/ExportAsXMLButton" to="." method="_on_export_as_xml_button_pressed"]
 [connection signal="file_selected" from="OpenFile" to="." method="_on_file_selected"]
