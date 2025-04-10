@@ -191,7 +191,7 @@ text = "LOAD_AN_IMAGE"
 
 [node name="FontLoad" type="Button" parent="RightSide/TextureInfo/Margin/Items/Title"]
 layout_mode = 2
-text = "LOAD_AN_FNT"
+text = "LOAD_A_FONT"
 
 [node name="FontName" type="VBoxContainer" parent="RightSide/TextureInfo/Margin/Items"]
 layout_mode = 2

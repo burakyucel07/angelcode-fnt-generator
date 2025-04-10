@@ -238,6 +238,7 @@ func _on_base_edit_value_changed(value: float) -> void:
 	form_field_updated.emit()
 
 
+## Import font data from a dictionary
 func _import_values(directory: String, values: Dictionary) -> void:
 	font_name_edit.text = values.info.face
 	var chars := ""
