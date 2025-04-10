@@ -29,11 +29,7 @@ var file_structure = {
 		"greenChnl": 0,
 		"blueChnl": 0,
 	},
-	"pages": [
-		{
-			"file": "",
-		}
-	],
+	"pages": [],
 	"chars": [],
 	"kernings": [],
 }
@@ -68,7 +64,7 @@ func add_values(values: Dictionary) -> void:
 	file_structure.common.base = values.base_from_top
 	file_structure.common.scaleW = values.texture_dimensions.x
 	file_structure.common.scaleH = values.texture_dimensions.y
-	file_structure.pages[0].file = values.texture_name + "." + values.file_extension
+	file_structure.pages = [{"file": values.texture_name + "." + values.file_extension}]
 	
 	var char_count: int = values.char_list.length()
 	var h_char_count: int = int(values.texture_dimensions.x) / int(values.char_dimensions.x)
@@ -81,6 +77,40 @@ func add_values(values: Dictionary) -> void:
 				values.char_dimensions,
 				values.char_offsets[i],
 				values.advance_infos[i])
+
+
+func import_from_text(file_path: String) -> Dictionary:
+	var file = FileAccess.open(file_path, FileAccess.READ)
+	if file == null:
+		print(FileAccess.get_open_error())
+		return {}
+	var tag_regex = RegEx.create_from_string("^(\\w+)(.*)")
+	var field_regex = RegEx.create_from_string("(\\w+)=(\"?[^\" ]*)")
+	var line = file.get_line()
+	while not file.eof_reached():
+		var array_mode := false
+		var tag = tag_regex.search(line).strings
+		var tag_name = tag[1]
+		if not tag_name.ends_with("s"):
+			if file_structure.has(tag[1] + "s"):
+				tag_name += "s"
+				file_structure[tag_name].append({})
+				array_mode = true
+			print(tag_name)
+			for field in field_regex.search_all(tag[2]):
+				var dict = file_structure[tag_name]
+				if array_mode:
+					dict = dict[-1]
+				var val = field.strings[2]
+				if val.begins_with("\""):
+					val = val.substr(1) as String
+				else:
+					val = val as int
+				dict[field.strings[1]] = val
+		line = file.get_line()
+
+	file.close()
+	return file_structure
 
 
 func export_as_text_to(directory, tex_name) -> bool:

@@ -59,7 +59,8 @@ func _on_file_selected(tex_info: Dictionary) -> void:
 	
 	export_directory = tex_info.texture_directory
 	
-	user_interface.set_char_dimensions(texture_size / 2)
+	if user_interface.get_char_dimensions() == Vector2i.ZERO:
+		user_interface.set_char_dimensions(texture_size / 2)
 	
 	font_image.update_wireframe()
 

@@ -15,7 +15,6 @@ const MAX_ADVANCE_INFO_COUNT: int = 1025
 var current_char_atlas: AtlasTexture = null
 var texture_dimensions := Vector2i.ZERO
 var char_counts := Vector2i.ONE
-var char_dimensions := Vector2i.ZERO
 
 var advance_infos: PackedInt32Array = []
 var char_offsets: Array[Vector2i] = []
@@ -66,6 +65,10 @@ func set_char_dimensions(value: Vector2i) -> void:
 	char_dimensions_edit.value = value
 
 
+func get_char_dimensions() -> Vector2i:
+	return char_dimensions_edit.value
+
+
 func set_current_char(value: int) -> void:
 	current_char_edit.text = str(value)
 	_on_current_char_edit_focus_exited()
@@ -86,6 +89,14 @@ func _unlock_edit_buttons(value: bool) -> void:
 
 
 func _on_file_selected(file_path: String) -> void:
+	if file_path.ends_with(".fnt"):
+		var file = FNTFile.new()
+		_import_values(file_path.get_base_dir(), file.import_from_text(file_path))
+		return
+	_load_texture(file_path)
+
+
+func _load_texture(file_path: String) -> void:
 	var image = Image.load_from_file(file_path)
 	var tex = ImageTexture.create_from_image(image)
 	
@@ -107,14 +118,15 @@ func _on_file_selected(file_path: String) -> void:
 		
 		texture_name_edit.text = ""
 		var file_directory_tokens = file_path.split("/")
-		var file_name_tokens = file_directory_tokens[file_directory_tokens.size() - 1].split(".")
-		texture_file_extension = file_name_tokens[file_name_tokens.size() - 1]
+		var file_name_tokens = file_directory_tokens[-1].split(".")
+		texture_file_extension = file_name_tokens[-1]
 		file_name_tokens.remove_at(file_name_tokens.size() - 1)
-		for i in range(file_name_tokens.size()):
+		for i in file_name_tokens.size():
 			texture_name_edit.text += file_name_tokens[i]
-			font_name_edit.text += file_name_tokens[i]
+			if font_name_edit.text.is_empty():
+				font_name_edit.text += file_name_tokens[i]
 			
-		for i in range(file_directory_tokens.size() - 1):
+		for i in file_directory_tokens.size() - 1:
 			texture_info.texture_directory += file_directory_tokens[i]
 			if i < file_directory_tokens.size() - 2:
 				texture_info.texture_directory += "/"
@@ -128,6 +140,7 @@ func _on_file_selected(file_path: String) -> void:
 
 func _update_current_visible_char():
 	var pos = Vector2i(current_char_index % char_counts.x, current_char_index / char_counts.x)
+	var char_dimensions = get_char_dimensions()
 	current_char_atlas.region = Rect2(
 		pos * char_dimensions,
 		char_dimensions,
@@ -151,12 +164,18 @@ func _update_current_visible_char():
 	current_char_advance.custom_minimum_size.y = advance_infos[selected_index]
 
 
-func _on_image_load_button_pressed() -> void:
+func _on_image_load_pressed() -> void:
+	open_file_dialog.filters = ["*.png,*.jpg,*.jpeg;Image Files;image/png,image/jpeg"]
+	open_file_dialog.popup_centered_ratio()
+
+
+func _on_font_load_pressed() -> void:
+	open_file_dialog.filters = ["*.fnt;FNT Files;application/font"]
 	open_file_dialog.popup_centered_ratio()
 
 
 func _on_char_advance_edit_focus_exited() -> void:
-	var char_advance = min(char_dimensions.x, int(current_advance_edit.text))
+	var char_advance = min(get_char_dimensions().x, int(current_advance_edit.text))
 	char_advance = max(char_advance, 0)
 	
 	advance_infos[current_char_index] = char_advance
@@ -178,7 +197,7 @@ func _on_current_char_edit_focus_exited() -> void:
 func _on_increase_advance_button_pressed() -> void:
 	advance_infos[current_char_index] = min(
 			advance_infos[current_char_index] + 1,
-			char_dimensions.x
+			get_char_dimensions().x
 		)
 		
 	_update_current_visible_char()
@@ -219,11 +238,34 @@ func _on_base_edit_value_changed(value: float) -> void:
 	form_field_updated.emit()
 
 
+func _import_values(directory: String, values: Dictionary) -> void:
+	font_name_edit.text = values.info.face
+	var chars := ""
+	advance_infos.clear()
+	advance_infos.resize(MAX_ADVANCE_INFO_COUNT)
+	char_offsets.resize(MAX_ADVANCE_INFO_COUNT)
+	char_offsets.fill(Vector2i.ZERO)
+	var dimensions = Vector2i.ZERO
+	for i in values.chars.size():
+		var char = values.chars[i]
+		chars += String.chr(char.id)
+		char_offsets[i] = Vector2i(char.xoffset, char.yoffset)
+		advance_infos[i] = char.xadvance
+		dimensions = Vector2i(char.width, char.height).max(dimensions)
+	var texture_path: String = values.pages[0].file
+	base_edit.value = values.common.base
+	texture_dimensions = Vector2(values.common.scaleW, values.common.scaleH)
+	char_counts = texture_dimensions / dimensions
+	set_char_dimensions(dimensions)
+	char_list_edit.text = chars
+	_load_texture(directory.path_join(texture_path))
+
+
 func _get_export_values() -> Dictionary:
 	return {
 		"font_name": font_name_edit.text,
 		"texture_name": texture_name_edit.text,
-		"char_dimensions": char_dimensions,
+		"char_dimensions": get_char_dimensions(),
 		"texture_dimensions": texture_dimensions,
 		"base_from_top": base_edit.value,
 		"char_list": char_list_edit.text,
@@ -254,16 +296,15 @@ func _on_current_offset_edit_value_changed(value: Vector2i) -> void:
 
 
 func _on_char_dimensions_edit_value_changed(value: Vector2i) -> void:
-	char_dimensions = value
-	char_counts = texture_dimensions / char_dimensions
+	char_counts = texture_dimensions / value
 	_update_char_count()
 	current_char_edit.text = str(min(
 			int(current_char_edit.text), int(char_count_label.text)))
 	
-	for i in range(MAX_ADVANCE_INFO_COUNT):
-		advance_infos[i] = min(char_dimensions.x, advance_infos[i])
+	for i in advance_infos.size():
+		advance_infos[i] = min(value.x, advance_infos[i])
 	
-	advance_limit_label.text = str(char_dimensions.x)
+	advance_limit_label.text = str(value.x)
 	
 	_update_current_visible_char()
 	
