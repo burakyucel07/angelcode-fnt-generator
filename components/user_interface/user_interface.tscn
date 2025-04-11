@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://rcj2mnv6rwrf"]
 
-[ext_resource type="Script" path="res://components/user_interface/user_interface.gd" id="2"]
+[ext_resource type="Script" uid="uid://faa00wjbrp25" path="res://components/user_interface/user_interface.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://d3he1bo7l206j" path="res://components/user_interface/dimensions.tscn" id="2_gv6df"]
 
 [sub_resource type="AtlasTexture" id="1"]
@@ -189,6 +189,10 @@ text = "PROJECT_NAME"
 layout_mode = 2
 text = "LOAD_AN_IMAGE"
 
+[node name="FontLoad" type="Button" parent="RightSide/TextureInfo/Margin/Items/Title"]
+layout_mode = 2
+text = "LOAD_A_FONT"
+
 [node name="FontName" type="VBoxContainer" parent="RightSide/TextureInfo/Margin/Items"]
 layout_mode = 2
 
@@ -309,7 +313,8 @@ dialog_text = "FILE_EXISTS"
 [connection signal="pressed" from="AdvancePanel/LetterControl/Controls/LetterSwitch/Centering/Controls/PrevChar" to="." method="_on_prev_char_button_pressed"]
 [connection signal="focus_exited" from="AdvancePanel/LetterControl/Controls/LetterSwitch/Centering/Controls/CurrentChar" to="." method="_on_current_char_edit_focus_exited"]
 [connection signal="pressed" from="AdvancePanel/LetterControl/Controls/LetterSwitch/Centering/Controls/NextChar" to="." method="_on_next_char_button_pressed"]
-[connection signal="pressed" from="RightSide/TextureInfo/Margin/Items/Title/ImageLoad" to="." method="_on_image_load_button_pressed"]
+[connection signal="pressed" from="RightSide/TextureInfo/Margin/Items/Title/ImageLoad" to="." method="_on_image_load_pressed"]
+[connection signal="pressed" from="RightSide/TextureInfo/Margin/Items/Title/FontLoad" to="." method="_on_font_load_pressed"]
 [connection signal="value_changed" from="RightSide/FontInfo/Scroll/Margin/Items/CharDimensions/CharDimensionsEdit" to="." method="_on_char_dimensions_edit_value_changed"]
 [connection signal="value_changed" from="RightSide/FontInfo/Scroll/Margin/Items/BaseFromTop/BaseSettings/BaseEdit" to="." method="_on_base_edit_value_changed"]
 [connection signal="pressed" from="RightSide/FontInfo/Scroll/Margin/Items/Export/ExportButton" to="." method="_on_export_button_pressed"]

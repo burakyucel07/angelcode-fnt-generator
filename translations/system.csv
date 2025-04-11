@@ -1,6 +1,7 @@
 keys,en
 PROJECT_NAME,"AngelCode Font Generator"
 LOAD_AN_IMAGE,"Load an Image"
+LOAD_A_FONT,"Load a Font"
 FONT_NAME,"Font Name"
 TEXTURE_NAME,"Texture Name"
 CHAR_DIMENSIONS,"Character Dimensions"

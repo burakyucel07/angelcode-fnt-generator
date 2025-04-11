@@ -67,7 +67,7 @@ func _draw() -> void:
 
 
 func _gui_input(event: InputEvent) -> void:
-	var char_dimensions = user_interface.char_dimensions
+	var char_dimensions = user_interface.get_char_dimensions()
 	var char_counts = user_interface.char_counts
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -78,7 +78,7 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _draw_letter_selection():
-	var char_dimensions = user_interface.char_dimensions
+	var char_dimensions = user_interface.get_char_dimensions()
 	var char_counts = user_interface.char_counts
 	var char_offsets = user_interface.char_offsets
 	for j in range(char_counts.y):
@@ -121,7 +121,7 @@ func _draw_letter_selection():
 
 func _draw_base_line():
 	var char_counts = user_interface.char_counts
-	var char_dimensions = user_interface.char_dimensions
+	var char_dimensions = user_interface.get_char_dimensions()
 	var texture_dimensions = user_interface.texture_dimensions
 	var base_from_top = user_interface.base_from_top
 	for i in range(char_counts.y):
@@ -140,7 +140,7 @@ func _draw_base_line():
 
 func _draw_letter_separators():
 	var char_counts = user_interface.char_counts
-	var char_dimensions = user_interface.char_dimensions
+	var char_dimensions = user_interface.get_char_dimensions()
 	var texture_dimensions = user_interface.texture_dimensions
 	for i in range(char_counts.x + 1):
 		draw_line(
